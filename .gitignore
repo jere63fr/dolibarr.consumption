@@ -1,0 +1,6 @@
+# IDE project files and folders
+.project
+.settings/*
+.buildpath
+/nbproject
+.idea/
