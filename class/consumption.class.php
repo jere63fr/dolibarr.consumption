@@ -825,4 +825,3 @@ class Consumption extends CommonObject
 		}
 	}
 }
-?>

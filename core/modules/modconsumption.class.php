@@ -311,5 +311,3 @@ class modconsumption extends DolibarrModules
 		return $this->_load_tables('/mymodule/sql/');
 	}
 }
-
-?>

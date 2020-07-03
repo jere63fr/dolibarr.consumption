@@ -220,4 +220,3 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 	}
 	$conso->showformwrite($user,$module,$object,$formproduct,$html,$conf);
 	$conso->showformview($user,$module,$object,$formproduct,$html,$conf);
-?>
