@@ -5,27 +5,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.5] - 2020-05-10
-- Error on Hook
+- Erreur sur Hook
 
 ## [3.4] - 2020-05-02
-- Add Edit on Interventions
+- Ajout Edition sur Interventions
 
 ## [3.3] - 2020-04-25
-- Compatibility correction
+- Correction compatibilite
 
 ## [3.2] - 2019-12-21
-- Showrefnav correction
+- Correction showrefnav
 
 ## [3.1] - 2019-06-02
-- Batch Management and Serial No.
-- Miscellaneous bug fixes
+- Gestion des lots et N° de serie
+- Correction de bugs divers
 
 ## [3.0] - 2018-03-15
-- Adding a badge with the number of movements on the tab
-- Addition of a setup page
-- Redesign of the display of consumption movements
+- Ajout de badge avec le nombre de mouvement sur l'onglet
+- Ajout d'une page setup
+- Refonte de l'affichage des mouvement de consommation
 
 ## [2.0] - 2018-01-27
-- Addition of constants CONSUMPTION_SEARCHMODE and CONSUMPTION_INVCODEPREFIX
-- Movement tracking by Inventory Code
-- Adding the fields fk_origin and origintype in the movement
+- Ajout des champs fk_origin et origintype dans le mouvement
+- Traçage du mouvement par Inventory Code
+- Ajout des constantes CONSUMPTION_SEARCHMODE et CONSUMPTION_INVCODEPREFIX

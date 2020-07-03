@@ -1,84 +1,31 @@
-<table>
- <thead>
-   <tr>	
-     <th>Version</th>
-     <th>Auteur</th>
-	 <th>Date</th>
-	 <th>Description</th>
-   </tr>
- <thead>
- <tbody>
-     <tr>
-     <td>3.5</td>
-     <td>JTH</td>
-	 <td>10/05/2020</td>
-	 <td>Erreur sur Hook</td>
-	</tr>
-     <tr>
-     <td>3.4</td>
-     <td>JTH</td>
-	 <td>02/05/2020</td>
-	 <td>Ajout Edition sur Interventions</td>
-	</tr>
-     <tr>
-     <td>3.3</td>
-     <td>JTH</td>
-	 <td>25/04/2020</td>
-	 <td>Correction compatibilite</td>
-	</tr>
-    <tr>
-     <td>3.2</td>
-     <td>JTH</td>
-	 <td>21/12/2019</td>
-	 <td>Correction showrefnav</td>
-	</tr>
-   	<tr>
-     <td>3.1</td>
-     <td>JTH</td>
-	 <td>02/06/2019</td>
-	 <td>Gestion des lots et N° de serie</td>
-   </tr>
-  	<tr>
-     <td>3.1</td>
-     <td>JTH</td>
-	 <td>02/06/2019</td>
-	 <td>Correction de bugs divers</td>
-   </tr>
- 	<tr>
-     <td>3.0</td>
-     <td>JTH</td>
-	 <td>15/03/2018</td>
-	 <td>Ajout de badge avec le nombre de mouvement sur l'onglet</td>
-   </tr>
- 	<tr>
-     <td>3.0</td>
-     <td>JTH</td>
-	 <td>15/03/2018</td>
-	 <td>Ajout d'une page setup</td>
-   </tr>
- 	<tr>
-     <td>3.0</td>
-     <td>JTH</td>
-	 <td>15/03/2018</td>
-	 <td>Refonte de l'affichage des mouvement de consommation</td>
-   </tr>
-	<tr>
-     <td>2.0</td>
-     <td>JTH</td>
-	 <td>27/01/2018</td>
-	 <td>Ajout des champs fk_origin et origintype dans le mouvement</td>
-   </tr>
-   <tr>
-     <td>2.0</td>
-     <td>JTH</td>
-	 <td>27/01/2018</td>
-	 <td>Traçage du mouvement par Inventory Code</td>
-   </tr>
-   <tr>
-     <td>2.0</td>
-     <td>JTH</td>
-	 <td>27/01/2018</td>
-	 <td>Ajout des constantes CONSUMPTION_SEARCHMODE et CONSUMPTION_INVCODEPREFIX</td>
-   </tr>
- </tbody>
-</table>
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [3.5] - 2020-05-10
+- Error on Hook
+
+## [3.4] - 2020-05-02
+- Add Edit on Interventions
+
+## [3.3] - 2020-04-25
+- Compatibility correction
+
+## [3.2] - 2019-12-21
+- Showrefnav correction
+
+## [3.1] - 2019-06-02
+- Batch Management and Serial No.
+- Miscellaneous bug fixes
+
+## [3.0] - 2018-03-15
+- Adding a badge with the number of movements on the tab
+- Addition of a setup page
+- Redesign of the display of consumption movements
+
+## [2.0] - 2018-01-27
+- Addition of constants CONSUMPTION_SEARCHMODE and CONSUMPTION_INVCODEPREFIX
+- Movement tracking by Inventory Code
+- Adding the fields fk_origin and origintype in the movement
