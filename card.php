@@ -18,7 +18,7 @@
 
 
 /**
- *   	\file       consumption/propalconsumption.php
+ *   	\file       consumption/card.php
  *		\ingroup    Consumption 
  *		\brief      This file manages consumption on orders
  *		\version    $Id: orderconsumption.php,v 1.0 2011/04/28 eldy Exp $

@@ -27,16 +27,16 @@ class modconsumption extends DolibarrModules
 	 *   \brief      Constructor. Define names, constants, directories, boxes, permissions
 	 *   \param      DB      Database handler
 	 */
-	function modconsumption($DB)
-	{
-        global $langs;
-	global $conf;
-	$langs->load("consumption@consumption");	
+	function modconsumption($DB) {
+
+		global $langs, $conf;
+
+		$langs->load("consumption@consumption");
         $this->db = $DB;
 
 		// Id for module (must be unique).
 		// Use here a free id (See in Home -> System information -> Dolibarr for list of used modules id).
-		$this->numero =9789;
+		$this->numero = 9789;
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'consumption';
 		
@@ -70,21 +70,25 @@ class modconsumption extends DolibarrModules
 
 		// Relative path to module style sheet if exists. Example: '/mymodule/css/mycss.css'.
 		//$this->style_sheet = '/mymodule/mymodule.css.php';
-		$this->module_parts = array('hooks' => array('commonobject', 'projectcard', 'ordercard', 'interventioncard', 'propalcard'),
-														'models' => 1);
+		$this->module_parts = array(
+			'hooks'  => array( 'commonobject', 'projectcard', 'ordercard', 'interventioncard', 'propalcard' ),
+			'models' => 1
+		);
 		// Config pages. Put here list of php page names stored in admmin directory used to setup module.
 		$this->config_page_url = array('setup.php@consumption');
 
 		// Dependencies
-		$this->depends = array("modStock");		// List of modules id that must be enabled if this module is enabled
-		$this->requiredby = array();	// List of modules id to disable if this one is disabled
-		$this->phpmin = array(5,0);					// Minimum version of PHP required by module
-		$this->need_dolibarr_version = array(4,0);	// Minimum version of Dolibarr required by module
-		$this->langfiles = array("consumption@consumption");
+		$this->depends               = array( "modStock" ); // List of modules id that must be enabled if this module is enabled
+		$this->requiredby            = array();             // List of modules id to disable if this one is disabled
+		$this->phpmin                = array( 5, 0 );       // Minimum version of PHP required by module
+		$this->need_dolibarr_version = array( 4, 0 );       // Minimum version of Dolibarr required by module
+		$this->langfiles             = array( "consumption@consumption" );
 
 		// Constants
-		$this->const=array(0=>array('CONSUMPTION_SEARCHMODE','chaine','1','0 => Recherche par label; 1 => Recherche par Inventory Code; 2 => Mixte',1),
-		                    1=>array('CONSUMPTION_INVCODEPREFIX','chaine','CONSO','Prefixe du code inventaire',1));
+		$this->const = array(
+			0 => array( 'CONSUMPTION_SEARCHMODE', 'chaine', '1', '0 => Recherche par label; 1 => Recherche par Inventory Code; 2 => Mixte', 1 ),
+			1 => array( 'CONSUMPTION_INVCODEPREFIX', 'chaine', 'CONSO', 'Prefixe du code inventaire', 1 )
+		);
 		//                             2=>array('MAIN_MODULE_MYMODULE_NEEDSMARTY','chaine',1,'Constant to say module need smarty',1)
 		// List of particular constants to add when module is enabled (key, 'chaine', value, desc, visible, 'current' or 'allentities', deleteonunactive)
 		// Example: $this->const=array(0=>array('MYMODULE_MYNEWCONST1','chaine','myvalue','This is a constant to add',1),
@@ -117,10 +121,12 @@ class modconsumption extends DolibarrModules
 			    'intervention:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readintervention:/consumption/card.php?id=__ID__&type=ficheinter',
 			    'propal:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal');
 		*/
-		$this->tabs = array('project:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=projet',
-			    'order:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readorder:/consumption/card.php?id=__ID__&type=commande',
-			    'intervention:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readintervention:/consumption/card.php?id=__ID__&type=ficheinter',
-			    'propal:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal');
+		$this->tabs = array(
+			'project:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=projet',
+			'order:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readorder:/consumption/card.php?id=__ID__&type=commande',
+			'intervention:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readintervention:/consumption/card.php?id=__ID__&type=ficheinter',
+			'propal:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal'
+		);
         // Dictionnaries
         $this->dictionnaries=array();
         /*
@@ -151,62 +157,62 @@ class modconsumption extends DolibarrModules
 		*/
 
 		// Permissions
-		$this->rights = array();		// Permission array used by this module
-		$r=0;
+		$this->rights = array();        // Permission array used by this module
+		$r            = 0;
 
 		// Add here list of permission defined by an id, a label, a boolean and two constant strings.
-		// Example:
-		 $this->rights[$r][0] = 9789; 				// Permission id (must not be already used)
-		 $this->rights[$r][1] = 'Peux declarer des consommations sur un projet';	// Permission label
-		 $this->rights[$r][2] = 'w'; 					// Permission by default for new user (0/1)
-		 $this->rights[$r][3] = 0;				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $this->rights[$r][4] = 'writeproject';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $r++;
-		 $this->rights[$r][0] = 9790;                           // Permission id (must not be already used)
-		 $this->rights[$r][1] = 'Peux consulter les consommations sur un projet';      // Permission label
-		 $this->rights[$r][2] = 'r';                                    // Permission by default for new user (0/1)
-		 $this->rights[$r][3] = 0;                              // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $this->rights[$r][4] = 'readproject';                                // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $r++;
-		 $this->rights[$r][0] = 9791;                           // Permission id (must not be already used)
-		 $this->rights[$r][1] = 'Peux declarer des consommations sur une commande';        // Permission label
-		 $this->rights[$r][2] = 'w';                                    // Permission by default for new user (0/1)
-		 $this->rights[$r][3] = 0;                              // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $this->rights[$r][4] = 'writeorder';                         // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $r++;
-		 $this->rights[$r][0] = 9792;                           // Permission id (must not be already used)
-		 $this->rights[$r][1] = 'Peux consulter les consommations sur une commande';        // Permission label
-		 $this->rights[$r][2] = 'r';                                    // Permission by default for new user (0/1)
-		 $this->rights[$r][3] = 0;                              // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $this->rights[$r][4] = 'readorder';                         // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $r++;
-		 $this->rights[$r][0] = 9793;                           // Permission id (must not be already used)
-		 $this->rights[$r][1] = 'Peux declarer des consommations sur une intervention';        // Permission label
-		 $this->rights[$r][2] = 'w';                                    // Permission by default for new user (0/1)
-		 $this->rights[$r][3] = 0;                              // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $this->rights[$r][4] = 'writeintervention';                         // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $r++;
-		 $this->rights[$r][0] = 9794;                           // Permission id (must not be already used)
-		 $this->rights[$r][1] = 'Peux consulter les consommations sur une intervention';        // Permission label
-		 $this->rights[$r][2] = 'r';                                    // Permission by default for new user (0/1)
-		 $this->rights[$r][3] = 0;                              // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $this->rights[$r][4] = 'readintervention';                         // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $r++;
-		 $this->rights[$r][0] = 9795;                           // Permission id (must not be already used)
-		 $this->rights[$r][1] = 'Peux declarer les consommations sur une proposition commerciale';        // Permission label
-		 $this->rights[$r][2] = 'w';                                    // Permission by default for new user (0/1)
-		 $this->rights[$r][3] = 0;                              // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $this->rights[$r][4] = 'writepropal';                         // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $r++;
-		 $this->rights[$r][0] = 9796;                           // Permission id (must not be already used)
-		 $this->rights[$r][1] = 'Peux consulter les consommations sur une proposition commerciale';        // Permission label
-		 $this->rights[$r][2] = 'r';                                    // Permission by default for new user (0/1)
-		 $this->rights[$r][3] = 0;                              // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $this->rights[$r][4] = 'readpropal';                         // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		 $r++;
+		$this->rights[ $r ][0] = 9789;             // Permission id (must not be already used)
+		$this->rights[ $r ][1] = 'Permission9789'; // Permission label
+		$this->rights[ $r ][2] = 'w';              // Permission by default for new user (0/1)
+		$this->rights[ $r ][3] = 0;                // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
+		$this->rights[ $r ][4] = 'writeproject';   // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
+		$r++;
+		$this->rights[ $r ][0] = 9790;
+		$this->rights[ $r ][1] = 'Permission9790';
+		$this->rights[ $r ][2] = 'r';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'readproject';
+		$r++;
+		$this->rights[ $r ][0] = 9791;
+		$this->rights[ $r ][1] = 'Permission9791';
+		$this->rights[ $r ][2] = 'w';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'writeorder';
+		$r++;
+		$this->rights[ $r ][0] = 9792;
+		$this->rights[ $r ][1] = 'Permission9792';
+		$this->rights[ $r ][2] = 'r';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'readorder';
+		$r++;
+		$this->rights[ $r ][0] = 9793;
+		$this->rights[ $r ][1] = 'Permission9793';
+		$this->rights[ $r ][2] = 'w';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'writeintervention';
+		$r++;
+		$this->rights[ $r ][0] = 9794;
+		$this->rights[ $r ][1] = 'Permission9794';
+		$this->rights[ $r ][2] = 'r';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'readintervention';
+		$r++;
+		$this->rights[ $r ][0] = 9795;
+		$this->rights[ $r ][1] = 'Permission9795';
+		$this->rights[ $r ][2] = 'w';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'writepropal';
+		$r++;
+		$this->rights[ $r ][0] = 9796;
+		$this->rights[ $r ][1] = 'Permission9796';
+		$this->rights[ $r ][2] = 'r';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'readpropal';
+		$r++;
+
 		// Main menu entries
-		$this->menus = array();			// List of menus to add
-		$r=0;
+		$this->menus = array();            // List of menus to add
+		$r           = 0;
 
 		 //Add here entries to declare new menus
 		 //Example to declare the Top Menu entry:
