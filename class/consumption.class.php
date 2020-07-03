@@ -181,8 +181,13 @@ class Consumption extends CommonObject
 			require_once DOL_DOCUMENT_ROOT.'/projet/class/project.class.php';
 		}
 
-		$langs->load("products");
-		$langs->load("stocks");
+		$langs->loadLangs(
+			array(
+				'products',
+				'stocks',
+			)
+		);
+
 		if (! empty($conf->productbatch->enabled)) $langs->load("productbatch");
 
 		// Security check

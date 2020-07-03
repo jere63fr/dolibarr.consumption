@@ -58,16 +58,22 @@ dol_include_once("/core/lib/date.lib.php");
 dol_include_once("/product/class/html.formproduct.class.php");
 dol_include_once("/core/class/html.formcompany.class.php");
 dol_include_once("/core/class/html.formother.class.php");
-$langs->load("consumption@consumption");
-$langs->load("bills");
-$langs->load("propal");
-$langs->load("orders");
-$langs->load("interventions");
-$langs->load("sendings");
-$langs->load("companies");
-$langs->load("products");
-$langs->load("stocks");
-$langs->load("productbatch");
+
+$langs->loadLangs(
+	array(
+		'bills',
+		'propal',
+		'orders',
+		'interventions',
+		'sendings',
+		'companies',
+		'products',
+		'stocks',
+		'productbatch',
+		'consumption@consumption',
+	)
+);
+
 $id='';
 $ref='';
 if (isset($_GET["type"]))  { $type=$_GET["type"];}

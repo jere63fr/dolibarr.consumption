@@ -41,13 +41,14 @@ require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once '../lib/consumption.lib.php';
 
 global $conf;
-$langs->load("admin");
-$langs->load("errors");
-$langs->load("other");
-$langs->load("consumption@consumption");
-
-//echo $langs->trans("consumption");exit;
-
+$langs->loadLangs(
+	array(
+		'admin',
+		'errors',
+		'other',
+		'consumption@consumption',
+	)
+);
 
 if (! $user->admin) accessforbidden();
 
