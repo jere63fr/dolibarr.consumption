@@ -7,6 +7,10 @@ ProjectConsumption=Consommation pour le projet
 PropalConsumption=Consommation pour la proposition commerciale
 Module9789Desc=Gestion des consommations sur Commande / Propale / Projet / Intervention
 Module9789Name=Consommation
+
+CONSUMPTION_SEARCHMODE_DESC = 0 => Recherche par label; 1 => Recherche par Inventory Code; 2 => Mixte
+CONSUMPTION_INVCODEPREFIX_DESC = Prefixe du code inventaire
+
 OrderConsumption=Consommation pour la commande
 InterConsumption=Consommation pour l'intervention
 Permission9789=Peux declarer des consommations sur un projet

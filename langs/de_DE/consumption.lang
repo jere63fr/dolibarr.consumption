@@ -6,6 +6,10 @@ ConsumptionManagement = Verbrauch Management
 ProjectConsumption = Verbrauch für das Projekt
 Module9789Desc = Verbrauchs-Management
 Module9789Name = Verbrauch
+
+CONSUMPTION_SEARCHMODE_DESC = 0 => Suche nach Label; 1 => Suche nach Bestandscode; 2 => Gemischt
+CONSUMPTION_INVCODEPREFIX_DESC = Prefix des Inventar-Codes
+
 OrderConsumption = Verbrauch fur den Auftrag
 InterConsumption = Verbrauch fur den Eingriff
 PropalConsumption = Verbrauch fur den Angebot

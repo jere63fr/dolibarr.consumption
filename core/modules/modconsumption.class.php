@@ -86,8 +86,8 @@ class modconsumption extends DolibarrModules
 
 		// Constants
 		$this->const = array(
-			0 => array( 'CONSUMPTION_SEARCHMODE', 'chaine', '1', '0 => Recherche par label; 1 => Recherche par Inventory Code; 2 => Mixte', 1 ),
-			1 => array( 'CONSUMPTION_INVCODEPREFIX', 'chaine', 'CONSO', 'Prefixe du code inventaire', 1 )
+			0 => array( 'CONSUMPTION_SEARCHMODE', 'chaine', '1', $langs->trans( 'CONSUMPTION_SEARCHMODE_DESC' ), 1 ),
+			1 => array( 'CONSUMPTION_INVCODEPREFIX', 'chaine', 'CONSO', $langs->trans( 'CONSUMPTION_INVCODEPREFIX_DESC' ), 1 ),
 		);
 		//                             2=>array('MAIN_MODULE_MYMODULE_NEEDSMARTY','chaine',1,'Constant to say module need smarty',1)
 		// List of particular constants to add when module is enabled (key, 'chaine', value, desc, visible, 'current' or 'allentities', deleteonunactive)
@@ -125,8 +125,9 @@ class modconsumption extends DolibarrModules
 			'project:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=projet',
 			'order:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readorder:/consumption/card.php?id=__ID__&type=commande',
 			'intervention:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readintervention:/consumption/card.php?id=__ID__&type=ficheinter',
-			'propal:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal'
+			'propal:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal',
 		);
+
         // Dictionnaries
         $this->dictionnaries=array();
         /*
