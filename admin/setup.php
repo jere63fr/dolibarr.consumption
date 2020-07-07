@@ -64,7 +64,7 @@ $action = GETPOST('action','alpha');
 if ($action == 'updateprefix')
 {
     $prefix=GETPOST('prefix','alpha');
-    $res = dolibarr_set_const($db,'CONSUMPTION_INVCODEPREFIX',$prefix,'chaine',0,'',$conf->entity);
+    $res = dolibarr_set_const( $db, 'CONSUMPTION_INVCODEPREFIX', $prefix,'chaine',0, $langs->trans( 'CONSUMPTION_SEARCHMODE_DESC' ), $conf->entity);
     
 	if (! $res > 0) $error++;
 
@@ -80,7 +80,7 @@ if ($action == 'updateprefix')
 elseif ($action == 'updatesearchmode')
 {
     $prefix=GETPOST('searchmode','alpha');
-    $res = dolibarr_set_const($db,'CONSUMPTION_SEARCHMODE',$prefix,'chaine',0,'',$conf->entity);
+    $res = dolibarr_set_const( $db, 'CONSUMPTION_SEARCHMODE', $prefix, 'chaine', 0, $langs->trans( 'CONSUMPTION_INVCODEPREFIX_DESC' ), $conf->entity);
     
 	if (! $res > 0) $error++;
 
@@ -99,22 +99,16 @@ elseif ($action == 'updatesearchmode')
 
 $dirmodels=array_merge(array('/'),(array) $conf->modules_parts['models']);
 
-llxHeader("",$langs->trans("ConsumptionParamModule"),'');
+llxHeader("",$langs->trans("ConsumptionManagement"),'');
 
 $form=new Form($db);
 
 
 $linkback='<a href="'.DOL_URL_ROOT.'/admin/modules.php">'.$langs->trans("BackToModuleList").'</a>';
-print load_fiche_titre($langs->trans("ConsumptionParamModule"),$linkback,'title_setup');
+print load_fiche_titre($langs->trans("ConsumptionManagement"),$linkback,'title_setup');
 
 $head = ConsumptionAdminPrepareHead();
 dol_fiche_head($head, 'settings', $langs->trans("Module9789Name"), 0, 'consumption@consumption');
-
-/*
- *  Numbering module
- */
-
-print load_fiche_titre($langs->trans("ConsumptionParamModule"),'','');
 
 print '<table class="noborder" width="100%">';
 //print '<tr class="liste_titre">';
