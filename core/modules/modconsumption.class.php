@@ -20,12 +20,16 @@
 include_once(DOL_DOCUMENT_ROOT .'/core/modules/DolibarrModules.class.php');
 
 
-
+/**
+ * Class modconsumption
+ */
 class modconsumption extends DolibarrModules
 {
 	/**
 	 *   \brief      Constructor. Define names, constants, directories, boxes, permissions
-	 *   \param      DB      Database handler
+	 *   \param      DB
+	 *
+	 * @param $DB   Database handler
 	 */
 	function modconsumption($DB) {
 
@@ -71,7 +75,13 @@ class modconsumption extends DolibarrModules
 		// Relative path to module style sheet if exists. Example: '/mymodule/css/mycss.css'.
 		//$this->style_sheet = '/mymodule/mymodule.css.php';
 		$this->module_parts = array(
-			'hooks'  => array( 'commonobject', 'projectcard', 'ordercard', 'interventioncard', 'propalcard' ),
+			'hooks'  => array(
+				'commonobject',
+				'projectcard',
+				'ordercard',
+				'interventioncard',
+				'propalcard',
+				),
 			'models' => 1
 		);
 		// Config pages. Put here list of php page names stored in admmin directory used to setup module.
@@ -116,11 +126,7 @@ class modconsumption extends DolibarrModules
 		// 'group'            to add a tab in group view
 		// 'contact'          to add a tab in contact view
 		// 'categories_x'	  to add a tab in category view (replace 'x' by type of category (0=product, 1=supplier, 2=customer, 3=member)
-       /* $this->tabs = array('project:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=projet',
-			    'order:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readorder:/consumption/card.php?id=__ID__&type=commande',
-			    'intervention:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readintervention:/consumption/card.php?id=__ID__&type=ficheinter',
-			    'propal:+conso:'.$langs->trans('StockConsumption').':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal');
-		*/
+
 		$this->tabs = array(
 			'project:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=projet',
 			'order:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readorder:/consumption/card.php?id=__ID__&type=commande',
