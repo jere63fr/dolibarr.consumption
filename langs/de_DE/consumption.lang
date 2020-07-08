@@ -13,6 +13,8 @@ CONSUMPTION_INVCODEPREFIX_DESC = Prefix des Inventar-Codes
 OrderConsumption = Verbrauch fur den Auftrag
 InterConsumption = Verbrauch fur den Eingriff
 PropalConsumption = Verbrauch fur den Angebot
+
+# Permissions
 Permission9789 = Verbrauch eines Projekts erfassen
 Permission9790 = Verbrauch eines Projekts einsehen
 Permission9791 = Verbrauch eines Auftrags erfassen
@@ -29,9 +31,9 @@ ConsumptionBtnRegister = Verbuchen
 ConsumptionListOfConsumption = Liste des Verbrauchs
 
 ForThisprojet = Für dieses Projekt
-ForThispropal=Für dieses Angebot
-ForThiscommande=Für diesen Auftrag
-ForThisficheinter=Für diesen Serviceauftrag
+ForThispropal = Für dieses Angebot
+ForThiscommande = Für diesen Auftrag
+ForThisficheinter = Für diesen Serviceauftrag
 ForThisuser = Für diesen Benutzer
 
 ConsumptionParamModule=Modulparameter
