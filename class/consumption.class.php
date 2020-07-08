@@ -91,19 +91,25 @@ class Consumption extends CommonObject
 	}
 	function showformwrite($user,$consotype,$entity,$formproduct,$html,$conf)
 	{
-		global $langs;
-	
+		global $langs, $db;
+
 		 $productstatic=new Product($db);
 		 $warehousestatic=new Entrepot($db);
 		 $userstatic=new User($db);
 		 $form = new Form ($db);
-		
+
 		$page = "card.php?type=".$consotype."&id=";
+		$right = false;
+
 		switch($consotype)
 		{
 			case 'projet':
 				$right=$entity->statut>0&&$user->rights->consumption->writeproject;
 				$libelle = $langs->trans("ProjectConsumption");
+				break;
+			case 'user':
+				$right=$entity->statut>0&&$user->rights->consumption->writeuser;
+				$libelle = $langs->trans("UserConsumption");
 				break;
 			case 'commande':
 				$right=$entity->statut>0&&$user->rights->consumption->writeorder;
@@ -120,14 +126,16 @@ class Consumption extends CommonObject
 		}
 		if($right)
 		{
-				//form for consumption
-				print_titre("Consommation");
-				//print "\"".$page.$_GET["id"]."\"";
+			//form for consumption
+			print load_fiche_titre($langs->trans("Consumption"), '', 'generic');
+
 				print "<form action=\"".$page.$_GET["id"]."\" method=\"post\">\n";
+			dol_fiche_head();
 				print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 				print '<input type="hidden" name="action" value="conso">';
 				print '<input type="hidden" name="label" value="'.$libelle.' '.$entity->ref.'">';
-				print '<table class="border" width="100%">';
+				print '<table class="border centpercent">';
+				print '<tbody>';
 
 				// Warehouse
 				print '<tr>';
@@ -148,18 +156,28 @@ class Consumption extends CommonObject
 				print '<tr>';
 				print '<td>'.$langs->trans("EatByDate").'</td><td>';
 				$eatbyselected=dol_mktime(0, 0, 0, GETPOST('eatbymonth'), GETPOST('eatbyday'), GETPOST('eatbyyear'));
-				$form->select_date($eatbyselected,'eatby','','',1,"");
+				print $form->selectDate($eatbyselected,'eatby','','',1,"");
 				print '</td>';
 				print '<td>'.$langs->trans("SellByDate").'</td><td>';
 				$sellbyselected=dol_mktime(0, 0, 0, GETPOST('sellbymonth'), GETPOST('sellbyday'), GETPOST('sellbyyear'));
-				$form->select_date($sellbyselected,'sellby','','',1,"");
+				print $form->selectDate($sellbyselected,'sellby','','',1,"");
 				print '</td>';
 				print '</tr>';
-				print '<tr><td colspan="6" align="center"><input type="submit" class="button" value="'.$langs->trans('Save').'">&nbsp;';
-				print '<input type="submit" class="button" name="cancel" value="'.$langs->trans("Cancel").'"></td></tr>';
+			print '</tbody>';
+
 				print '</table>';
+
+				print '</div>';
+
+			print '<div class="center">';
+
+			print '<input type="submit" class="button butActionNew" value="'.$langs->trans('ConsumptionBtnRegister').'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			print '<input type="submit" class="button" name="cancel" value="'.$langs->trans("Cancel").'">';
+			print '</div>';
 				print '</form>';
-				print '<br>';
+			print '<br /><br />';
+
+
 		}
 	}
 	function showformview($user,$consotype,$entity,$formproduct,$html,$conf)
@@ -383,7 +401,7 @@ class Consumption extends CommonObject
 			if ($msid) $texte = $langs->trans('StockMovementForId', $msid);
 			else
 			{
-				$texte = $langs->trans("ListOfStockMovements");
+				$texte = $langs->trans("ConsumptionListOfConsumption");
 				if ($id) $texte.=' ('.$langs->trans("ForThis".$type).')';
 			}
 
@@ -746,8 +764,8 @@ class Consumption extends CommonObject
 		llxFooter();
 
 		$db->close();
-			
-		
+
+
 	}
 	function countconso($entity){
 		global $db,$conf;

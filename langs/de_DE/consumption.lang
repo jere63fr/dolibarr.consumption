@@ -1,6 +1,6 @@
 NumberOfUnit = Menge
 Consumption = Verbrauch
-Consumptions = Verbrauchen
+Consumptions = Verbrauch
 StockConsumption = Artikel-Verbrauch
 ConsumptionManagement = Verbrauchs-Management
 ProjectConsumption = Projekt-Verbrauch
@@ -17,14 +17,23 @@ Permission9789 = Verbrauch eines Projekts erfassen
 Permission9790 = Verbrauch eines Projekts einsehen
 Permission9791 = Verbrauch eines Auftrags erfassen
 Permission9792 = Verbrauch eines Auftrags einsehen
-Permission9793 = Verbrauch eine Serviceauftrags erfassen
-Permission9794 = Verbrauch eine Serviceauftrags einsehen
+Permission9793 = Verbrauch eines Serviceauftrags erfassen
+Permission9794 = Verbrauch eines Serviceauftrags einsehen
 Permission9795 = Verbrauch eine Angebots erfassen
 Permission9796 = Verbrauch eine Angebots einsehen
-ForThisprojett = Für dieses Projekt
+Permission9797 = Verbrauch eine Benutzers erfassen
+Permission9798 = Verbrauch eine Benutzers einsehen
+
+# Card
+ConsumptionBtnRegister = Verbuchen
+ConsumptionListOfConsumption = Liste des Verbrauchs
+
+ForThisprojet = Für dieses Projekt
 ForThispropal=Für dieses Angebot
 ForThiscommande=Für diesen Auftrag
 ForThisficheinter=Für diesen Serviceauftrag
+ForThisuser = Für diesen Benutzer
+
 ConsumptionParamModule=Modulparameter
 PrefixInvcod=Präfix für den Inventarcode
 search1=Suche nach Label
