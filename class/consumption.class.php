@@ -100,6 +100,7 @@ class Consumption extends CommonObject
 
 		$page = "card.php?type=".$consotype."&id=";
 		$right = false;
+		$libelle = '';
 
 		switch($consotype)
 		{
@@ -109,7 +110,7 @@ class Consumption extends CommonObject
 				break;
 			case 'user':
 				$right=$entity->statut>0&&$user->rights->consumption->writeuser;
-				$libelle = $langs->trans("UserConsumption");
+				$libelle = $langs->trans("UserConsumption").' \''.$entity->login.'\' ';
 				break;
 			case 'commande':
 				$right=$entity->statut>0&&$user->rights->consumption->writeorder;
@@ -133,7 +134,7 @@ class Consumption extends CommonObject
 			dol_fiche_head();
 				print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 				print '<input type="hidden" name="action" value="conso">';
-				print '<input type="hidden" name="label" value="'.$libelle.' '.$entity->ref.'">';
+				print '<input type="hidden" name="label" value="'.$libelle.' ('.$entity->ref.')">';
 				print '<table class="border centpercent">';
 				print '<tbody>';
 
