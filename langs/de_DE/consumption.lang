@@ -1,18 +1,20 @@
+# Main
 NumberOfUnit = Menge
 Consumption = Verbrauch
 Consumptions = Verbrauch
 StockConsumption = Artikel-Verbrauch
 ConsumptionManagement = Verbrauchs-Management
-ProjectConsumption = Projekt-Verbrauch
 Module9789Desc = Ordne Verbrauch veschiedenen Organisationseinheiten zu
 Module9789Name = Verbrauchs-Management
 
 CONSUMPTION_SEARCHMODE_DESC = 0 => Suche nach Label; 1 => Suche nach Bestandscode; 2 => Gemischt
 CONSUMPTION_INVCODEPREFIX_DESC = Prefix des Inventar-Codes
 
-OrderConsumption = Verbrauch fur den Auftrag
-InterConsumption = Verbrauch fur den Eingriff
-PropalConsumption = Verbrauch fur den Angebot
+ProjectConsumption = Projekt-Verbrauch
+OrderConsumption = Verbrauch für Auftrag
+InterConsumption = Verbrauch für Serviceauftrag
+PropalConsumption = Verbrauch für Angebot
+UserConsumption = Verbrauch durch Benutzer
 
 # Permissions
 Permission9789 = Verbrauch eines Projekts erfassen
@@ -23,8 +25,8 @@ Permission9793 = Verbrauch eines Serviceauftrags erfassen
 Permission9794 = Verbrauch eines Serviceauftrags einsehen
 Permission9795 = Verbrauch eine Angebots erfassen
 Permission9796 = Verbrauch eine Angebots einsehen
-Permission9797 = Verbrauch eine Benutzers erfassen
-Permission9798 = Verbrauch eine Benutzers einsehen
+Permission9797 = Verbrauch eines Benutzers erfassen
+Permission9798 = Verbrauch eines Benutzers einsehen
 
 # Card
 ConsumptionBtnRegister = Verbuchen
@@ -37,8 +39,8 @@ ForThisficheinter = Für diesen Serviceauftrag
 ForThisuser = Für diesen Benutzer
 
 ConsumptionParamModule=Modulparameter
-PrefixInvcod=Präfix für den Inventarcode
-search1=Suche nach Label
-search2=Suche nach Inventarcode
-search3=Beide
-searchMode=Suchmodus
+PrefixInvcod = Prefix für den Inventarcode
+search1 = Suche nach Label
+search2 = Suche nach Inventarcode
+search3 = Beide
+searchMode = Suchmodus
