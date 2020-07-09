@@ -144,7 +144,7 @@ class Consumption extends CommonObject
 				print '<td width="20%">';
 				print $formproduct->selectWarehouses(($_GET["dwid"]?$_GET["dwid"]:GETPOST('id_entrepot')),'id_entrepot','',1);
 				print '</td>';
-				/*print '<td width="10%">'.$langs->trans("Product").'</td>';*/
+				print '<td width="10%">'.$langs->trans("Product").'</td>';
 				print '<td width="20%" class="fieldrequired">';
 				$html->select_produits('','product','',$conf->product->limit_size,0,-1,2);
 				print '</td>';
