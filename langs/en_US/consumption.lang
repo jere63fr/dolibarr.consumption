@@ -1,18 +1,22 @@
-NumberOfUnit=Quantity
-Consumption=Consumptions
-Consumptions=Consumptions
-StockConsumption=Stock Consumptions
-ConsumptionManagement= Consumptions Management
-ProjectConsumption=Consumption for the project
-PropalConsumption=Consumption for the proposal
-Module9789Desc=Consumptions Management
-Module9789Name=Consumption
+# Main
+NumberOfUnit = Quantity
+Consumption = Consumptions
+Consumptions = Consumptions
+StockConsumption = Stock Consumptions
+ConsumptionManagement = Consumptions Management
+Module9789Desc = Consumptions Management
+Module9789Name = Consumption
 
 CONSUMPTION_SEARCHMODE_DESC = 0 => Search by Label; 1 => Search by Inventory Code; 2 => Mixed
 CONSUMPTION_INVCODEPREFIX_DESC = Prefix of the inventory code
 
+ProjectConsumption = Consumption for the project
 OrderConsumption=Consumption for the order
 InterConsumption=Consumption for the intervention
+PropalConsumption = Consumption for the proposal
+UserConsumption = Consumption for user
+
+# Permissions
 Permission9789 = Can declare consumptions on a project 
 Permission9790 = Can see consumptions on a project 
 Permission9791 = Can declare consumptions on an order 
@@ -21,10 +25,19 @@ Permission9793 = Can declare consumptions on an intervention
 Permission9794 = Can see consumptions on an intervention
 Permission9795 = Can declare consumptions on a proposal
 Permission9796 = Can see consumptions on a proposal
+Permission9797 = Can declare consumption by a user
+Permission9798 = Can see consumptions by a user
+
+# Card
+ConsumptionBtnRegister = Declare
+ConsumptionListOfConsumption = List of Consumption
+
 ForThisprojet=For this Project
 ForThispropal=For this Proposal
 ForThiscommande=For this Order
 ForThisficheinter=For this Intervention
+ForThisuser = For this User
+
 ConsumptionParamModule=Consumption parameters
 PrefixInvcod=Inventory Code prefix
 search1=Search by label

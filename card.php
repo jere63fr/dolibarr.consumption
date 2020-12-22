@@ -51,6 +51,8 @@ dol_include_once("/commande/class/commande.class.php");
 dol_include_once("/core/lib/order.lib.php");
 dol_include_once("/product/stock/class/entrepot.class.php");
 dol_include_once("/product/class/product.class.php");
+dol_include_once("/user/class/user.class.php");
+dol_include_once("/core/lib/usergroups.lib.php");
 dol_include_once("/custom/consumption/class/consumption.class.php");
 dol_include_once("/core/lib/stock.lib.php");
 dol_include_once("/core/lib/product.lib.php");
@@ -71,6 +73,7 @@ $langs->loadLangs(
 		'stocks',
 		'productbatch',
 		'consumption@consumption',
+		'users',
 	)
 );
 
@@ -94,6 +97,11 @@ if($type=='projet'){
 	$type='project';
 	$headtit='Project';
 	$headpic='project';
+}
+if($type=='user'){
+	$type='user';
+	$headtit='User';
+	$headpic='user';
 }
 elseif($type=='ficheinter'){
 	$type='fichinter';
@@ -175,13 +183,21 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 			}
 		}
 	}
-	dol_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
-	print '<table class="border" width="100%">';
-	// Ref
-	print '<tr><td width="18%">'.$langs->trans("Ref").'</td><td colspan="3">';
-	if($type=='project'){
+
+	if( $type == 'project' ) {
+
+		$head = project_prepare_head($object);
+
 		$projectsListId = $object->getProjectsAuthorizedForUser($user,$mine,1);
 		$object->next_prev_filter=" rowid in (".$projectsListId.")";
+
+		dol_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
+		dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin);
+
+		print '<table class="border" width="100%">';
+		// Ref
+		print '<tr><td width="18%">'.$langs->trans("Ref").'</td><td colspan="3">';
+
 		print $form->showrefnav($object,'ref','',1,'ref','ref','','&type=project');
 		print '</td></tr>';
 		print '<tr><td>'.$langs->trans("Label").'</td><td>'.$object->title.'</td></tr>';
@@ -199,6 +215,16 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		print '</table>';
 		print '</div>';
 		
+	}
+	elseif ( 'user' == $type ) {
+
+		$head = user_prepare_head($object);
+
+		dol_fiche_head ($head, 'conso', $langs->trans($headtit), 0, $headpic );
+		dol_banner_tab( $object, 'id', $linkback, $user->rights->user->user->lire || $user->admin );
+
+		print '</div>';
+		print '<br /><br />';
 	}
 	else{
 		print $form->showrefnav($object,'ref','',1,'ref','ref','','&type='.$type);

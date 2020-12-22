@@ -1,34 +1,46 @@
-NumberOfUnit=Quantite
-Consumption=Consommation
-Consumptions=Consommations
-StockConsumption=Consommations de Stock
-ConsumptionManagement=Gestion des consommations
-ProjectConsumption=Consommation pour le projet
-PropalConsumption=Consommation pour la proposition commerciale
-Module9789Desc=Gestion des consommations sur Commande / Propale / Projet / Intervention
-Module9789Name=Consommation
+# Main
+NumberOfUnit = Quantite
+Consumption = Consommation
+Consumptions = Consommations
+StockConsumption = Consommations de Stock
+ConsumptionManagement = Gestion des consommations
+Module9789Desc = Gestion des consommations sur Commande / Propale / Projet / Intervention
+Module9789Name = Consommation
 
 CONSUMPTION_SEARCHMODE_DESC = 0 => Recherche par label; 1 => Recherche par Inventory Code; 2 => Mixte
 CONSUMPTION_INVCODEPREFIX_DESC = Prefixe du code inventaire
 
-OrderConsumption=Consommation pour la commande
-InterConsumption=Consommation pour l'intervention
-Permission9789=Peux declarer des consommations sur un projet
-Permission9790=Peux consulter les consommations sur un projet
-Permission9791=Peux declarer des consommations sur une commande
-Permission9792=Peux consulter les consommations sur une commande
-Permission9793=Peux declarer des consommations sur une intervention
-Permission9794=Peux consulter les consommations sur une intervention
-Permission9795=Peux declarer des consommations sur une proposition commerciale
-Permission9796=Peux consulter les consommations sur une proposition commerciale
-Warehouse=Entrepôt
-ForThisprojet=Pour ce Projet
-ForThispropal=Pour cette Proposition commerciale
-ForThiscommande=Pour cette Commande
-ForThisficheinter=Pour cette Intervention
-ConsumptionParamModule=Paramètres du module
-PrefixInvcod=Préfix pour Inventory Code
-search1=Recherche par label
-search2=Recherche par Inventory Code
-search3=Mixte
-searchMode=Mode de recherche
+ProjectConsumption = Consommation pour le projet
+PropalConsumption = Consommation pour la proposition commerciale
+OrderConsumption = Consommation pour la commande
+InterConsumption = Consommation pour l'intervention
+UserConsumption = Consommation par l'utilisateur
+
+# Permissions
+Permission9789 = Peux declarer des consommations sur un projet
+Permission9790 = Peux consulter les consommations sur un projet
+Permission9791 = Peux declarer des consommations sur une commande
+Permission9792 = Peux consulter les consommations sur une commande
+Permission9793 = Peux declarer des consommations sur une intervention
+Permission9794 = Peux consulter les consommations sur une intervention
+Permission9795 = Peux declarer des consommations sur une proposition commerciale
+Permission9796 = Peux consulter les consommations sur une proposition commerciale
+Permission9797 = Enregistrement de la consommation d'un utilisateur
+Permission9798 = Voir la consommation d'un utilisateur
+
+# Card
+ConsumptionBtnRegister = Valider
+ConsumptionListOfConsumption = Liste des Mouvements
+
+ForThisprojet = Pour ce Projet
+ForThispropal = Pour cette Proposition commerciale
+ForThiscommande = Pour cette Commande
+ForThisficheinter = Pour cette Intervention
+ForThisuser = Pour cet utilisateur
+
+ConsumptionParamModule = Paramètres du module
+PrefixInvcod = Préfix pour Inventory Code
+search1 = Recherche par label
+search2 = Recherche par Inventory Code
+search3 = Mixte
+searchMode = Mode de recherche

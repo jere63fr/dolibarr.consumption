@@ -132,6 +132,7 @@ class modconsumption extends DolibarrModules
 			'order:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readorder:/consumption/card.php?id=__ID__&type=commande',
 			'intervention:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readintervention:/consumption/card.php?id=__ID__&type=ficheinter',
 			'propal:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal',
+			'user:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readuser:/consumption/card.php?id=__ID__&type=user',
 		);
 
         // Dictionnaries
@@ -215,6 +216,22 @@ class modconsumption extends DolibarrModules
 		$this->rights[ $r ][2] = 'r';
 		$this->rights[ $r ][3] = 0;
 		$this->rights[ $r ][4] = 'readpropal';
+		$r++;
+
+		// PERMISSION: write consumption user
+		$this->rights[ $r ][0] = 9797;
+		$this->rights[ $r ][1] = 'Permission9797';
+		$this->rights[ $r ][2] = 'w';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'writeuser';
+		$r++;
+
+		// PERMISSION: read consumption user
+		$this->rights[ $r ][0] = 9798;
+		$this->rights[ $r ][1] = 'Permission9798';
+		$this->rights[ $r ][2] = 'r';
+		$this->rights[ $r ][3] = 0;
+		$this->rights[ $r ][4] = 'readuser';
 		$r++;
 
 		// Main menu entries
