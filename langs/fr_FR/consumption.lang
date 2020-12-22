@@ -29,8 +29,8 @@ Permission9797 = Enregistrement de la consommation d'un utilisateur
 Permission9798 = Voir la consommation d'un utilisateur
 
 # Card
-ConsumptionBtnRegister = Verbuchen
-ConsumptionListOfConsumption = Liste des Verbrauchs
+ConsumptionBtnRegister = Valider
+ConsumptionListOfConsumption = Liste des Mouvements
 
 ForThisprojet = Pour ce Projet
 ForThispropal = Pour cette Proposition commerciale
