@@ -89,9 +89,9 @@ class Consumption extends CommonObject
 			}
 		}
 	}
-	function showformwrite($user,$consotype,$entity,$formproduct,$html,$conf)
+	function showformwrite($user,$consotype,$entity,$formproduct,$html)
 	{
-		global $langs, $db;
+		global $langs, $db, $conf;
 
 		 $productstatic=new Product($db);
 		 $warehousestatic=new Entrepot($db);
@@ -131,7 +131,7 @@ class Consumption extends CommonObject
 			print load_fiche_titre($langs->trans("Consumption"), '', 'generic');
 
 				print "<form action=\"".$page.$_GET["id"]."\" method=\"post\">\n";
-			dol_fiche_head();
+				print dol_get_fiche_head();
 				print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 				print '<input type="hidden" name="action" value="conso">';
 				print '<input type="hidden" name="label" value="'.$libelle.' ('.$entity->ref.')">';
@@ -187,7 +187,7 @@ class Consumption extends CommonObject
 
 		}
 	}
-	function showformview($user,$consotype,$entity,$formproduct,$html,$conf)
+	function showformview($user,$consotype,$entity,$formproduct,$html)
 	{
 		global $langs,$db,$conf,$hookmanager;
 		
