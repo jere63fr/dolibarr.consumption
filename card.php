@@ -189,36 +189,29 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		$head = project_prepare_head($object);
 
 		$projectsListId = $object->getProjectsAuthorizedForUser($user,$mine,1);
-		$object->next_prev_filter=" rowid in (".$projectsListId.")";
+		$object->next_prev_filter = " rowid in (".$projectsListId.")";
+		$linkback = '<a href="'.DOL_URL_ROOT.'/projet/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
-		dol_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
-		dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin);
+		$morehtmlref = '<div class="refidno">';
+		// Title
+		$morehtmlref .= $object->title;
+		dol_syslog( print_r($object, true ), LOG_ALERT);
+		// Thirdparty
+		if ($soc->id > 0)
+		{
+			$morehtmlref .= '<br>'.$langs->trans('ThirdParty').' : '.$soc->getNomUrl(1, 'project');
+		}
+		$morehtmlref .= '</div>';
 
-		print '<table class="border" width="100%">';
-		// Ref
-		print '<tr><td width="18%">'.$langs->trans("Ref").'</td><td colspan="3">';
+		print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
+		dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin, 'rowid', 'ref', $morehtmlref);
 
-		print $form->showrefnav($object,'ref','',1,'ref','ref','','&type=project');
-		print '</td></tr>';
-		print '<tr><td>'.$langs->trans("Label").'</td><td>'.$object->title.'</td></tr>';
-		print '<tr><td>'.$langs->trans("Company").'</td><td>';
-		if (! empty($object->societe->id)) print $object->societe->getNomUrl(1);
-		else print '&nbsp;';
-		print '</td></tr>';
-		// Visibility
-		print '<tr><td>'.$langs->trans("Visibility").'</td><td>';
-		if ($object->public) print $langs->trans('SharedProject');
-		else print $langs->trans('PrivateProject');
-		print '</td></tr>';
-		// Statut
-		print '<tr><td>'.$langs->trans("Status").'</td><td>'.$object->getLibStatut(4).'</td></tr>';
-		print '</table>';
 		print '</div>';
-		
 	}
 	elseif ( 'user' == $type ) {
 
 		$head = user_prepare_head($object);
+		$linkback = '<a href="'.DOL_URL_ROOT.'/user/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
 		dol_fiche_head ($head, 'conso', $langs->trans($headtit), 0, $headpic );
 		dol_banner_tab( $object, 'id', $linkback, $user->rights->user->user->lire || $user->admin );
