@@ -17,10 +17,9 @@
  */
 
 
-class ActionsConsumption
-{ 
-	
-	function completeTabsHead($parameters, &$object, &$action, $hookmanager)
+class ActionsConsumption {
+
+	public function completeTabsHead($parameters, &$object, &$action, $hookmanager)
 	{
 		if (in_array('fileslib', explode(':', $parameters['context']))){
 			global $langs;
@@ -31,7 +30,7 @@ class ActionsConsumption
 			$test = $parameters['head'];
 			$object=$parameters['object'];
 			foreach ($test as $key => $val){
-				if ($val[2]=='conso'){				
+				if ($val[2]=='conso'){
 					$nbmvt=$conso->countconso($object);
 					if($nbmvt > 0 && !strstr($test[$key][1], "badge")){
 						$test[$key][1].=' <span class="badge">'. $nbmvt .'</span>';
