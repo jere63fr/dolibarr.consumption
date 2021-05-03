@@ -366,6 +366,9 @@ class Consumption extends CommonObject {
 			case 3:
 				$sql.= " AND  (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%' OR m.label LIKE '%".addslashes($object->ref)."%')";
 				break;
+			case 4:
+				$sql.= " AND  (m.origintype = '".$object->element."' AND m.fk_origin = '".$object->id."')";
+				break;
 		}
 		if (empty($conf->global->STOCK_SUPPORTS_SERVICES)) $sql.= " AND p.fk_product_type = 0";
 		if ($month > 0)
@@ -821,6 +824,9 @@ class Consumption extends CommonObject {
 			case 3:
 				$sql .= " (m.inventorycode LIKE '" . addslashes( $conf->global->CONSUMPTION_INVCODEPREFIX . $object->ref ) . "%' OR m.label LIKE '%" . addslashes( $object->ref ) . "%')";
 				break;
+			case 4:
+				$sql .= " (m.origintype = '" . $object->element . "' AND m.fk_origin = '" . $object->id . "')";
+				break;
 		}
 		$nbtotalofrecords = 0;
 		$result = $db->query($sql);
@@ -856,6 +862,9 @@ class Consumption extends CommonObject {
 				break;
 			case 3:
 				$sql .= " AND  (m.inventorycode LIKE '" . addslashes( $conf->global->CONSUMPTION_INVCODEPREFIX . $object->ref ) . "%' OR m.label LIKE '%" . addslashes( $object->ref ) . "%')";
+				break;
+			case 4:
+				$sql .= " AND  (m.origintype = '" . $object->element . "' AND m.fk_origin = '" . $object->id . "')";
 				break;
 		}
 
