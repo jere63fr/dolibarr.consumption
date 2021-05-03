@@ -134,54 +134,65 @@ if ($user->societe_id > 0) $socid=$user->societe_id;
 *
 * Put here all code to do according to value of "action" parameter
 ********************************************************************/
-if ($_POST["action"] == "conso" && ! $_POST["cancel"])
- {
-         if (is_numeric($_POST["nbpiece"]))
-         {
-                 $conso = new Consumption($db);
-				 $product = new Product($db);
-                 $result=$product->fetch($_POST["product"]);
-                 $result=$conso->correct_stock($product->id, //produit
-				 $user,									//user
-                 $_POST["id_entrepot"],					//entrepot
-                 $_POST["nbpiece"],						//nb piece
-                 1,										//Direction of movement:0=input (stock increase by a stock transfer), 1=output (stock decrease after by a stock transfer),2=output (stock decrease), 3=input (stock increase)
-                 $_POST["label"],						//label
-                 0,										//price
-				 '',									//inventorycode
-				 $type,									//origintype & id
-				 $_GET["id"],							//
-				 $_POST["eatby"],						//eat-by date. Will be used if lot does not exists yet and will be created.
-				 $_POST["sellby"],					//sell-by date. Will be used if lot does not exists yet and will be created.
-				 $_POST["batch_number"]);				//batch number
+if ( $_POST["action"] == "conso" && ! $_POST["cancel"] ) {
+	if ( is_numeric( $_POST["nbpiece"] ) ) {
+		$conso   = new Consumption( $db );
+		$product = new Product( $db );
+		$result  = $product->fetch( $_POST["product"] );
+		$result  = $conso->correct_stock(
+			$product->id, //produit
+			$user,                                    //user
+			$_POST["id_entrepot"],                    //entrepot
+			$_POST["nbpiece"],                        //nb piece
+			1,                                        //Direction of movement:0=input (stock increase by a stock transfer), 1=output (stock decrease after by a stock transfer),2=output (stock decrease), 3=input (stock increase)
+			$_POST["label"],                        //label
+			0,                                        //price
+			'',                                    //inventorycode
+			$type,                                    //origintype & id
+			$_GET["id"],                            //
+			$_POST["eatby"],                        //eat-by date. Will be used if lot does not exists yet and will be created.
+			$_POST["sellby"],                    //sell-by date. Will be used if lot does not exists yet and will be created.
+			$_POST["batch_number"],
+			$_POST["datem"]
+		);                //batch number
 
-                 if ($result > 0)
-                 {
-                         header("Location: card.php?id=".$id."&type=".$module);
-                         exit;
-                 }
-         }
- }
+		if ( $result > 0 ) {
+			header( "Location: card.php?id=" . $id . "&type=" . $module );
+			exit;
+		}
+	}
+}
 
 /***************************************************
 * PAGE
 *
 ****************************************************/
 
-llxHeader('',$langs->trans("StockConsumption"),'');
-	$form = new Form($db);
-	$userstatic=new User($db);
-	$formproduct=new FormProduct($db);
-	$classname = ucfirst($type);
-	$object = new $classname($db);
-	$object->fetch($_GET["id"],$_GET["ref"]);
-	$conso = new Consumption($db);
-	$html=new Form($db);
-	$soc = new Societe($db, $object->socid);
-	$soc->fetch($object->socid);
-	$fonction = $type.'_prepare_head';
-	$head = $fonction($object);
-	$nbmvt=$conso->countconso($object);
+$form        = new Form( $db );
+$userstatic  = new User( $db );
+$formproduct = new FormProduct( $db );
+$classname   = ucfirst( $type );
+$object      = new $classname( $db );
+$object->fetch( $_GET["id"], $_GET["ref"] );
+$conso = new Consumption( $db );
+$html  = new Form( $db );
+$soc   = new Societe( $db );
+$soc->fetch( $object->socid );
+$function = $type . '_prepare_head';
+$head     = $function( $object );
+$nbmvt    = $conso->countconso( $object );
+
+$item = $object->ref;
+if ( $type == 'project' ) {
+	$item = $object->title . ' (' . $object->ref . ')';
+} elseif ( $type == 'user' ) {
+	$item = $object->lastname . ', ' . $object->firstname;
+}
+
+$page_title = $langs->trans( "StockConsumption" ) . ' | ' . $item;
+
+llxHeader( '', $page_title, '' );
+
 	if($nbmvt > 0){
 		foreach($head as $key=>$tab){
 			if($tab[2]=='conso'){

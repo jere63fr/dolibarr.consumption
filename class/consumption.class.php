@@ -45,8 +45,9 @@ class Consumption extends CommonObject {
 		$this->consotype = '';
 
 	}
-	function correct_stock($productid, $user, $id_entrepot, $nbpiece, $movement, $label='', $price=0, $inventorycode='', $origin_element='', $origin_id=null,$eatby='',$sellby='',$batch='')
-	{
+
+	public function correct_stock( $productid, $user, $id_entrepot, $nbpiece, $movement, $label = '', $price = 0, $inventorycode = '', $origin_element = '', $origin_id = null, $eatby = '', $sellby = '', $batch = '', $datem = '' ) {
+
 		if ($id_entrepot)
 		{
 			$this->db->begin();
@@ -124,33 +125,46 @@ class Consumption extends CommonObject {
 				break;
 		}
 
-		if($right)
-		{
+		if ( $right ) {
 			//form for consumption
 			print load_fiche_titre($langs->trans("Consumption"), '', 'generic');
 
-				print "<form action=\"".$page.$_GET["id"]."\" method=\"post\">\n";
-				print dol_get_fiche_head();
-				print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
-				print '<input type="hidden" name="action" value="conso">';
-				print '<input type="hidden" name="label" value="'.$libelle.' ('.$entity->ref.')">';
-				print '<table class="border centpercent">';
-				print '<tbody>';
+			print "<form action=\"".$page.$_GET["id"]."\" method=\"post\">";
+			print dol_get_fiche_head();
+			print '<input type="hidden" name="token" value="'.newToken().'">';
+			print '<input type="hidden" name="action" value="conso">';
 
-				// Warehouse
-				print '<tr>';
-				print '<td width="20%" class="fieldrequired">'.$langs->trans("Warehouse").'</td>';
-				print '<td width="20%">';
-				print $formproduct->selectWarehouses(($_GET["dwid"]?$_GET["dwid"]:GETPOST('id_entrepot')),'id_entrepot','',1);
-				print '</td>';
-				print '<td width="10%">'.$langs->trans("Product").'</td>';
-				print '<td width="20%" class="fieldrequired">';
-				$html->select_produits('','product','',$conf->product->limit_size,0,-1,2);
-				print '</td>';
-				print '<td width="10%" class="fieldrequired">'.$langs->trans("NumberOfUnit").'</td><td width="20%"><input class="flat" name="nbpiece" size="10" value=""></td>';
-				print '</tr>';
+			print '<table class="border centpercent">';
+			print '<tbody>';
+
+			print '<tr>'; // Row1
+
+			// Product
+			print '<td class="fieldrequired">'.$langs->trans("Product").'</td><td>';
+			$html->select_produits('','product',0,$conf->product->limit_size,0,-1,2);
+			print '</td>';
+
+			// Amount
+			print '<td class="fieldrequired">'.$langs->trans("NumberOfUnit").'</td><td>';
+			print '<input class="flat" name="nbpiece" size="10" value="">';
+			print '</td>';
+
+			// Warehouse
+			print '<td class="fieldrequired">'.$langs->trans("Warehouse").'</td><td>';
+			print $formproduct->selectWarehouses(($_GET["dwid"]?$_GET["dwid"]:GETPOST('id_entrepot')),'id_entrepot','',1);
+			print '</td>';
+
+			print '</tr>'; // END Row2
+			print '<tr>'; // Row2
+
+			// Label
+			print '<td>'.$langs->trans("MovementLabel").'</td><td>';
+			print '<input type="text" name="label" size="65" value="'.$libelle.' ('.$object->ref.')">';
+			print '</td>';
+
+			// Batch
 			if ( !empty( $conf->productbatch->enabled ) ) {
-				print '<td'.($entity->element == 'stock'?'': ' class="fieldrequired"').'>'.$langs->trans("batch_number").'</td><td colspan="3">';
+				print '<td>'.$langs->trans("batch_number").'</td><td>';
 				print '<input type="text" name="batch_number" size="40" value="'.GETPOST("batch_number").'">';
 				print '</td>';
 			}
@@ -432,7 +446,7 @@ class Consumption extends CommonObject {
 
 			print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'?id='.$id.'&type='.$type.'">';
 			if ($optioncss != '') print '<input type="hidden" name="optioncss" value="'.$optioncss.'">';
-			print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+			print '<input type="hidden" name="token" value="'.newToken().'">';
 			print '<input type="hidden" name="formfilteraction" id="formfilteraction" value="list">';
 			print '<input type="hidden" name="action" value="list">';
 			print '<input type="hidden" name="sortfield" value="'.$sortfield.'">';
