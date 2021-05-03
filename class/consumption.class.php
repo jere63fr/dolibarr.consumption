@@ -72,7 +72,8 @@ class Consumption extends CommonObject {
 			$movementstock->origin = $origin;
 			$movementstock->origin->id = $origin_id;
 			$inventorycode=$conf->global->CONSUMPTION_INVCODEPREFIX.$movementstock->origin->ref.dol_print_date(dol_now(),'%y%m%d%H%M%S');
-			$result=$movementstock->_create($user,$productid,$id_entrepot,$op[$movement],$movement,$price,$label,$inventorycode,'',$eatby,$sellby,$batch);
+			$date = strtotime($datem);
+			$result = $movementstock->_create($user,$productid,$id_entrepot,$op[$movement],$movement,$price,$label,$inventorycode,$date,$eatby,$sellby,$batch);
 
 			if ($result >= 0)
 			{
@@ -168,21 +169,31 @@ class Consumption extends CommonObject {
 				print '<input type="text" name="batch_number" size="40" value="'.GETPOST("batch_number").'">';
 				print '</td>';
 			}
-			print '</tr>';
-			print '<tr>';
-			if (empty($conf->global->PRODUCT_DISABLE_EATBY)) {
-				print '<td>'.$langs->trans("EatByDate").'</td><td>';
-				$eatbyselected=dol_mktime(0, 0, 0, GETPOST('eatbymonth'), GETPOST('eatbyday'), GETPOST('eatbyyear'));
-				print $form->selectDate($eatbyselected,'eatby','','',1,"");
-				print '</td>';
+
+			// Date
+			print '<td>' . $langs->trans( "ConsumptionDate" ) . '</td><td>';
+			print $form->selectDate( '', 'datem', '', '', 0, "" );
+			print '</td>';
+
+			print '</tr>'; // END Row2
+
+			if (empty($conf->global->PRODUCT_DISABLE_EATBY) || empty($conf->global->PRODUCT_DISABLE_SELLBY)) {
+				print '<tr>';
+				if ( empty( $conf->global->PRODUCT_DISABLE_EATBY ) ) {
+					print '<td>' . $langs->trans( "EatByDate" ) . '</td><td>';
+					$eatbyselected = dol_mktime( 0, 0, 0, GETPOST( 'eatbymonth' ), GETPOST( 'eatbyday' ), GETPOST( 'eatbyyear' ) );
+					print $form->selectDate( $eatbyselected, 'eatby', '', '', 1, "" );
+					print '</td>';
+				}
+				if ( empty( $conf->global->PRODUCT_DISABLE_SELLBY ) ) {
+					print '<td>' . $langs->trans( "SellByDate" ) . '</td><td>';
+					$sellbyselected = dol_mktime( 0, 0, 0, GETPOST( 'sellbymonth' ), GETPOST( 'sellbyday' ), GETPOST( 'sellbyyear' ) );
+					print $form->selectDate( $sellbyselected, 'sellby', '', '', 1, "" );
+					print '</td>';
+				}
+				print '</tr>';
 			}
-			if (empty($conf->global->PRODUCT_DISABLE_SELLBY)) {
-				print '<td>'.$langs->trans("SellByDate").'</td><td>';
-				$sellbyselected=dol_mktime(0, 0, 0, GETPOST('sellbymonth'), GETPOST('sellbyday'), GETPOST('sellbyyear'));
-				print $form->selectDate($sellbyselected,'sellby','','',1,"");
-				print '</td>';
-			}
-			print '</tr>';
+
 			print '</tbody>';
 
 			print '</table>';
