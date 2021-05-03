@@ -19,11 +19,17 @@
 
 /**
  *   	\file       consumption/card.php
- *		\ingroup    Consumption 
+ *		\ingroup    Consumption
  *		\brief      This file manages consumption on orders
  *		\version    $Id: orderconsumption.php,v 1.0 2011/04/28 eldy Exp $
  *		\author		Jérémie TER-HEIDE
- *		\remarks	
+ *		\remarks
+ */
+
+/**
+ * @global $langs
+ * @global $db
+ * @global $user
  */
 
 // Load Dolibarr environment
@@ -128,54 +134,65 @@ if ($user->societe_id > 0) $socid=$user->societe_id;
 *
 * Put here all code to do according to value of "action" parameter
 ********************************************************************/
-if ($_POST["action"] == "conso" && ! $_POST["cancel"])
- {
-         if (is_numeric($_POST["nbpiece"]))
-         {
-                 $conso = new Consumption($db);
-				 $product = new Product($db);
-                 $result=$product->fetch($_POST["product"]);
-                 $result=$conso->correct_stock($product->id, //produit
-				 $user,									//user
-                 $_POST["id_entrepot"],					//entrepot
-                 $_POST["nbpiece"],						//nb piece
-                 1,										//Direction of movement:0=input (stock increase by a stock transfer), 1=output (stock decrease after by a stock transfer),2=output (stock decrease), 3=input (stock increase)
-                 $_POST["label"],						//label
-                 0,										//price
-				 '',									//inventorycode
-				 $type,									//origintype & id
-				 $_GET["id"],							//
-				 $_POST["eatby"],						//eat-by date. Will be used if lot does not exists yet and will be created.
-				 $_POST["sellby"],					//sell-by date. Will be used if lot does not exists yet and will be created.
-				 $_POST["batch_number"]);				//batch number
+if ( $_POST["action"] == "conso" && ! $_POST["cancel"] ) {
+	if ( is_numeric( $_POST["nbpiece"] ) ) {
+		$conso   = new Consumption( $db );
+		$product = new Product( $db );
+		$result  = $product->fetch( $_POST["product"] );
+		$result  = $conso->correct_stock(
+			$product->id, //produit
+			$user,                                    //user
+			$_POST["id_entrepot"],                    //entrepot
+			$_POST["nbpiece"],                        //nb piece
+			1,                                        //Direction of movement:0=input (stock increase by a stock transfer), 1=output (stock decrease after by a stock transfer),2=output (stock decrease), 3=input (stock increase)
+			$_POST["label"],                        //label
+			0,                                        //price
+			'',                                    //inventorycode
+			$type,                                    //origintype & id
+			$_GET["id"],                            //
+			$_POST["eatby"],                        //eat-by date. Will be used if lot does not exists yet and will be created.
+			$_POST["sellby"],                    //sell-by date. Will be used if lot does not exists yet and will be created.
+			$_POST["batch_number"],
+			$_POST["datem"]
+		);                //batch number
 
-                 if ($result > 0)
-                 {
-                         header("Location: card.php?id=".$id."&type=".$module);
-                         exit;
-                 }
-         }
- }
+		if ( $result > 0 ) {
+			header( "Location: card.php?id=" . $id . "&type=" . $module );
+			exit;
+		}
+	}
+}
 
 /***************************************************
 * PAGE
 *
 ****************************************************/
 
-llxHeader('',$langs->trans("StockConsumption"),'');
-	$form = new Form($db);
-	$userstatic=new User($db);
-	$formproduct=new FormProduct($db);
-	$classname = ucfirst($type);
-	$object = new $classname($db);
-	$object->fetch($_GET["id"],$_GET["ref"]);
-	$conso = new Consumption($db);
-	$html=new Form($db);
-	$soc = new Societe($db, $object->socid);
-	$soc->fetch($object->socid);
-	$fonction = $type.'_prepare_head';
-	$head = $fonction($object);
-	$nbmvt=$conso->countconso($object);
+$form        = new Form( $db );
+$userstatic  = new User( $db );
+$formproduct = new FormProduct( $db );
+$classname   = ucfirst( $type );
+$object      = new $classname( $db );
+$object->fetch( $_GET["id"], $_GET["ref"] );
+$conso = new Consumption( $db );
+$html  = new Form( $db );
+$soc   = new Societe( $db );
+$soc->fetch( $object->socid );
+$function = $type . '_prepare_head';
+$head     = $function( $object );
+$nbmvt    = $conso->countconso( $object );
+
+$item = $object->ref;
+if ( $type == 'project' ) {
+	$item = $object->title . ' (' . $object->ref . ')';
+} elseif ( $type == 'user' ) {
+	$item = $object->lastname . ', ' . $object->firstname;
+}
+
+$page_title = $langs->trans( "StockConsumption" ) . ' | ' . $item;
+
+llxHeader( '', $page_title, '' );
+
 	if($nbmvt > 0){
 		foreach($head as $key=>$tab){
 			if($tab[2]=='conso'){
@@ -189,38 +206,30 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		$head = project_prepare_head($object);
 
 		$projectsListId = $object->getProjectsAuthorizedForUser($user,$mine,1);
-		$object->next_prev_filter=" rowid in (".$projectsListId.")";
+		$object->next_prev_filter = " rowid in (".$projectsListId.")";
+		$linkback = '<a href="'.DOL_URL_ROOT.'/projet/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
-		dol_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
-		dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin);
+		$morehtmlref = '<div class="refidno">';
+		// Title
+		$morehtmlref .= $object->title;
+		// Thirdparty
+		if ($soc->id > 0)
+		{
+			$morehtmlref .= '<br>'.$langs->trans('ThirdParty').' : '.$soc->getNomUrl(1, 'project');
+		}
+		$morehtmlref .= '</div>';
 
-		print '<table class="border" width="100%">';
-		// Ref
-		print '<tr><td width="18%">'.$langs->trans("Ref").'</td><td colspan="3">';
+		print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
+		dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin, 'rowid', 'ref', $morehtmlref);
 
-		print $form->showrefnav($object,'ref','',1,'ref','ref','','&type=project');
-		print '</td></tr>';
-		print '<tr><td>'.$langs->trans("Label").'</td><td>'.$object->title.'</td></tr>';
-		print '<tr><td>'.$langs->trans("Company").'</td><td>';
-		if (! empty($object->societe->id)) print $object->societe->getNomUrl(1);
-		else print '&nbsp;';
-		print '</td></tr>';
-		// Visibility
-		print '<tr><td>'.$langs->trans("Visibility").'</td><td>';
-		if ($object->public) print $langs->trans('SharedProject');
-		else print $langs->trans('PrivateProject');
-		print '</td></tr>';
-		// Statut
-		print '<tr><td>'.$langs->trans("Status").'</td><td>'.$object->getLibStatut(4).'</td></tr>';
-		print '</table>';
 		print '</div>';
-		
 	}
 	elseif ( 'user' == $type ) {
 
 		$head = user_prepare_head($object);
+		$linkback = '<a href="'.DOL_URL_ROOT.'/user/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
-		dol_fiche_head ($head, 'conso', $langs->trans($headtit), 0, $headpic );
+		print dol_get_fiche_head( $head, 'conso', $langs->trans( $headtit ), 0, $headpic );
 		dol_banner_tab( $object, 'id', $linkback, $user->rights->user->user->lire || $user->admin );
 
 		print '</div>';
@@ -250,5 +259,13 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 
 		print '</div>';
 	}
-	$conso->showformwrite($user,$module,$object,$formproduct,$html,$conf);
-	$conso->showformview($user,$module,$object,$formproduct,$html,$conf);
+
+/**
+ * Display Form to Create Consumption
+ */
+$conso->showformwrite( $user, $module, $object, $formproduct, $html );
+
+/**
+ * Display linked StockMovements
+ */
+$conso->showformview( $user, $module, $object, $formproduct, $html );

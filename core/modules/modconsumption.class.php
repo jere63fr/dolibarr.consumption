@@ -43,7 +43,7 @@ class modconsumption extends DolibarrModules
 		$this->numero = 9789;
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'consumption';
-		
+
 		// Family can be 'crm','financial','hr','projects','products','ecm','technic','other'
 		// It is used to group modules in module setup page
 		$this->family = "products";
@@ -128,7 +128,7 @@ class modconsumption extends DolibarrModules
 		// 'categories_x'	  to add a tab in category view (replace 'x' by type of category (0=product, 1=supplier, 2=customer, 3=member)
 
 		$this->tabs = array(
-			'project:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=projet',
+			'project:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=project',
 			'order:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readorder:/consumption/card.php?id=__ID__&type=commande',
 			'intervention:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readintervention:/consumption/card.php?id=__ID__&type=ficheinter',
 			'propal:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal',
