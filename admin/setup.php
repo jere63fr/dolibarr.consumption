@@ -101,35 +101,32 @@ elseif ($action == 'updatesearchmode')
  * View
  */
 
-$dirmodels=array_merge(array('/'),(array) $conf->modules_parts['models']);
-
 llxHeader("",$langs->trans("ConsumptionManagement"),'');
 
 $form=new Form($db);
 
 
-$linkback='<a href="'.DOL_URL_ROOT.'/admin/modules.php">'.$langs->trans("BackToModuleList").'</a>';
-print load_fiche_titre($langs->trans("ConsumptionManagement"),$linkback,'title_setup');
+$linkback = '<a href="'.DOL_URL_ROOT.'/admin/modules.php?restore_lastsearch_values=1">'.$langs->trans("BackToModuleList").'</a>';
+print load_fiche_titre( $langs->trans( "ConsumptionManagement" ), $linkback, 'title_setup' );
 
 $head = ConsumptionAdminPrepareHead();
-print dol_get_fiche_head( $head, 'settings', $langs->trans( "Module9789Name" ), 0, 'consumption@consumption' );
+print dol_get_fiche_head( $head, 'settings', $langs->trans( "Module9789Name" ), -1, 'consumption@consumption' );
 
-print '<table class="noborder" width="100%">';
-//print '<tr class="liste_titre">';
-//print '<td width="40%">'.$langs->trans("PrefixInvcod").'</td>';
-//print '<td width="40%"></td>';
-//print '<td width="20%"></td>';
-//print '</tr>'."\n";
+print '<table class="noborder centpercent">';
+print '<tr class="liste_titre">';
+print '<td>'.$langs->trans("Parameter").'</td>';
+print '<td>'.$langs->trans("Value").'</td>';
+print '<td class="center" width="60">'.$langs->trans("Save").'</td>';
+print "</tr>";
 
 print '<form method="post" action="'.$_SERVER["PHP_SELF"].'">';
 print '<input type="hidden" name="action" value="updateprefix">';
 print '<input type="hidden" name="token" value="'.newToken().'">';
 print '<tr class="oddeven"><td>'.$langs->trans("PrefixInvcod").'</td>';
 print '<td><input type="text" name="prefix" value="'.$conf->global->CONSUMPTION_INVCODEPREFIX.'"></td>';
-print '<td><input class="button" value="Modifier" name="Button" type="submit"></td>';
-print "</tr></form></table><br>\n";
+print '<td><input class="button" value="'.$langs->trans("Save").'" name="Button" type="submit"></td>';
+print "</tr></form>";
 
-print '<table class="noborder" width="100%">';
 //print '<tr class="liste_titre">';
 //print '<td width="40%">'.$langs->trans("searchMode").'</td>';
 //print '<td width="40%"></td>';
@@ -148,8 +145,8 @@ for ( $i = 1; $i <= 4; $i++ ) {
 	print '<option value="' . $i . '" ' . $sel . '>' . $langs->trans( "search" . $i ) . '</option>';
 }
 print '</select></td>';
-print '<td><input class="button" value="Modifier" name="Button" type="submit"></td>';
-print "</tr></form>\n";
+print '<td><input class="button" value="'.$langs->trans("Save").'" name="Button" type="submit"></td>';
+print "</tr></form>";
 print '</table>';
 
 
