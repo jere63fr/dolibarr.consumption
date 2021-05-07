@@ -43,4 +43,52 @@ class ActionsConsumption
 		}
 	}
 
+	public function completeListOfReferent( $parameters, &$object, &$action, $hookmanager ) {
+
+		global $user;
+		global $langs;
+
+		$this->results = array(
+			'consumption' => array(
+				'name'          => $langs->trans("Verbrauch"),
+				'title'         => $langs->trans("Liste der Verbräuche des Projektes"),
+				'class'         => 'MouvementStock',
+				'table'         => 'stock_mouvement',
+				'datefieldname' => 'datev',
+				'margin'        => 'minus',
+				'disableamount' => 0,
+				'urlnew'        => DOL_URL_ROOT . '/custom/consumption/card.php?id=' . $object->id . '&type=project',
+				'lang'          => 'consumption',
+				'buttonnew'     => $langs->trans("Neuen Verbrauch erfassen"),
+				'testnew'       => $user->rights->consumption->writeproject,
+				'test'          => $user->rights->consumption->writeproject,
+			),
+		);
+
+		return 1;
+	}
+
+	public function getElementList( $parameters, &$object, &$action, $hookmanager ) {
+
+		if ( $parameters['tablename'] == 'stock_mouvement' ) {
+			$this->resprints = 'SELECT rowid FROM ' . MAIN_DB_PREFIX . "stock_mouvement WHERE origintype IN ('project') AND fk_origin IN (" . $parameters['ids'] . ")";
+
+			return 1;
+		}
+
+		return 0;
+	}
+
+	public function XXprintOverviewDetail( $parameters, &$object, &$action, $hookmanager ) {
+
+		global $user;
+
+		if ( $parameters['key'] == 'consumption' ) {
+			// skip
+		}
+
+		return 0;
+
+	}
+
 }
