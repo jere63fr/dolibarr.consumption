@@ -81,6 +81,7 @@ class modconsumption extends DolibarrModules
 				'ordercard',
 				'interventioncard',
 				'propalcard',
+				'projectOverview',
 				),
 			'models' => 1
 		);
