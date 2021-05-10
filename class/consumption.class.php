@@ -354,7 +354,7 @@ class Consumption extends CommonObject {
 		$sql.= " WHERE m.fk_product = p.rowid";
 		if ($msid > 0) $sql .= " AND m.rowid = ".$msid;
 		$sql.= " AND m.fk_entrepot = e.rowid";
-		$sql.= " AND e.entity IN (".getEntity('stock').")";
+//		$sql.= " AND e.entity IN (".getEntity('stock').")";
 		switch ($conf->global->CONSUMPTION_SEARCHMODE)
 		{
 			case 1:
@@ -367,7 +367,7 @@ class Consumption extends CommonObject {
 				$sql.= " AND  (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%' OR m.label LIKE '%".addslashes($object->ref)."%')";
 				break;
 			case 4:
-				$sql.= " AND  (m.origintype = '".$object->element."' AND m.fk_origin = '".$object->id."')";
+				$sql.= " AND  (m.origintype = '".$type."' AND m.fk_origin = '".$id."')";
 				break;
 		}
 		if (empty($conf->global->STOCK_SUPPORTS_SERVICES)) $sql.= " AND p.fk_product_type = 0";
