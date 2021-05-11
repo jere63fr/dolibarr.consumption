@@ -48,43 +48,41 @@ class Consumption extends CommonObject {
 
 	public function correct_stock( $productid, $user, $id_entrepot, $nbpiece, $movement, $label = '', $price = 0, $inventorycode = '', $origin_element = '', $origin_id = null, $eatby = '', $sellby = '', $batch = '', $datem = '' ) {
 
-		if ($id_entrepot)
-		{
+		if ( $id_entrepot ) {
 			$this->db->begin();
 			global $conf;
-			require_once DOL_DOCUMENT_ROOT .'/product/stock/class/mouvementstock.class.php';
-			require_once DOL_DOCUMENT_ROOT .'/product/class/product.class.php';
+			require_once DOL_DOCUMENT_ROOT . '/product/stock/class/mouvementstock.class.php';
+			require_once DOL_DOCUMENT_ROOT . '/product/class/product.class.php';
 
-			$product = new Product($this->db);
-			$product->fetch($productid);
+			$product = new Product( $this->db );
+			$product->fetch( $productid );
 
-			$price = $this->get_product_cost( $product );
-			$op[0] = "+".trim($nbpiece);
-			$op[1] = "-".trim($nbpiece);
-			$movementstock=new MouvementStock($this->db);
-			$classname = ucfirst($origin_element);
-			$origin = new $classname($this->db);
-			$res=$origin->fetch($origin_id);
-			$movementstock->origin = $origin;
+			$price                     = $this->get_product_cost( $product );
+			$op[0]                     = "+" . trim( $nbpiece );
+			$op[1]                     = "-" . trim( $nbpiece );
+			$movementstock             = new MouvementStock( $this->db );
+			$classname                 = ucfirst( $origin_element );
+			$origin                    = new $classname( $this->db );
+			$res                       = $origin->fetch( $origin_id );
+			$movementstock->origin     = $origin;
 			$movementstock->origin->id = $origin_id;
-			$inventorycode=$conf->global->CONSUMPTION_INVCODEPREFIX.$movementstock->origin->ref.dol_print_date(dol_now(),'%y%m%d%H%M%S');
-			$date = strtotime($datem);
-			$result = $movementstock->_create($user,$productid,$id_entrepot,$op[$movement],$movement,$price,$label,$inventorycode,$date,$eatby,$sellby,$batch);
+			$inventorycode             = $conf->global->CONSUMPTION_INVCODEPREFIX . $movementstock->origin->ref . dol_print_date( dol_now(), '%y%m%d%H%M%S' );
+			$date                      = strtotime( $datem );
+			$result                    = $movementstock->_create( $user, $productid, $id_entrepot, $op[ $movement ], $movement, $price, $label, $inventorycode, $date, $eatby, $sellby, $batch );
 
-			if ($result >= 0)
-			{
+			if ( $result >= 0 ) {
 				$this->db->commit();
+
 				return 1;
-			}
-			else
-			{
-			    $this->error  = $movementstock->error;
-			    $this->errors = $movementstock->errors;
+			} else {
+				$this->error  = $movementstock->error;
+				$this->errors = $movementstock->errors;
 				$this->db->rollback();
+
 				return -1;
 			}
 		}
-	}
+	} // END correct_stock()
 
 	public function get_product_cost( object $product ) {
 
@@ -105,7 +103,7 @@ class Consumption extends CommonObject {
 		}
 
 		return $price;
-	}
+	} // END get_product_cost()
 
 	public function showformwrite( $user, $consotype, $object, $formproduct, $html ) {
 
