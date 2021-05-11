@@ -57,12 +57,8 @@ class Consumption extends CommonObject {
 
 			$product = new Product($this->db);
 			$product->fetch($productid);
-			if($product->pmp>0){
-				$price=$product->pmp;
-			}
-			else{
-				$price=$product->cost_price;
-			}
+
+			$price = $this->get_product_cost( $product );
 			$op[0] = "+".trim($nbpiece);
 			$op[1] = "-".trim($nbpiece);
 			$movementstock=new MouvementStock($this->db);
@@ -88,6 +84,27 @@ class Consumption extends CommonObject {
 				return -1;
 			}
 		}
+	}
+
+	public function get_product_cost( object $product ) {
+
+		$price = 0.00;
+
+		if ( $product->pmp > 0 ) {
+			$price = $product->pmp;
+		} else {
+			if ( empty( $product->cost_price ) ) {
+				require_once DOL_DOCUMENT_ROOT . '/fourn/class/fournisseur.product.class.php';
+				$product_fourn = new ProductFournisseur( $this->db );
+				if ( $product_fourn->find_min_price_product_fournisseur( $product->id ) > 0 ) {
+					$price = $product_fourn->display_price_product_fournisseur();
+				}
+			} else {
+				$price = $product->cost_price;
+			}
+		}
+
+		return $price;
 	}
 
 	public function showformwrite( $user, $consotype, $object, $formproduct, $html ) {
