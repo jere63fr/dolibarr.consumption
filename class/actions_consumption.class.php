@@ -19,6 +19,7 @@
 
 class ActionsConsumption {
 
+	// @todo load on all tabs for project
 	public function completeTabsHead($parameters, &$object, &$action, $hookmanager)
 	{
 		if (in_array('fileslib', explode(':', $parameters['context']))){
@@ -50,7 +51,7 @@ class ActionsConsumption {
 		$this->results = array(
 			'consumption' => array(
 				'name'          => $langs->trans("Verbrauch"),
-				'title'         => $langs->trans("Liste der Verbräuche des Projektes"),
+				'title'         => $langs->trans("Liste der Verbräuche"),
 				'class'         => 'MouvementStock',
 				'table'         => 'stock_mouvement',
 				'datefieldname' => 'datev',
