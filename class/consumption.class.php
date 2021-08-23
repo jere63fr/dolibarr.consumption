@@ -172,17 +172,15 @@ class Consumption extends CommonObject
 
 				print '</div>';
 
-			print '<div class="center">';
+					print '<div class="center">';
+					print '<input type="submit" class="button button-save" name="save" value="'.$langs->trans('ConsumptionBtnRegister').'">';
+					print '<input type="submit" class="button button-cancel" name="cancel" value="'.$langs->trans("Cancel").'">';
+					print '</div>';
 
-			print '<input type="submit" class="button butActionNew" value="'.$langs->trans('ConsumptionBtnRegister').'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			print '<input type="submit" class="button" name="cancel" value="'.$langs->trans("Cancel").'">';
-			print '</div>';
 				print '</form>';
-			print '<br /><br />';
-
-
 		}
 	}
+
 	function showformview($user,$consotype,$entity,$formproduct,$html,$conf)
 	{
 		global $langs,$db,$conf,$hookmanager;

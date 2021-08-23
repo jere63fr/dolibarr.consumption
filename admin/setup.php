@@ -123,10 +123,9 @@ print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 print '<input type="hidden" name="id" value="'.$object->id.'">';
 print '<tr class="oddeven"><td>'.$langs->trans("PrefixInvcod").'</td>';
 print '<td><input type="text" name="prefix" value="'.$conf->global->CONSUMPTION_INVCODEPREFIX.'"></td>';
-print '<td><input class="button" value="Modifier" name="Button" type="submit"></td>';
-print "</tr></form></table><br>\n";
+print '<td><input type="submit" class="button button-save" name="save" value="'.$langs->trans('Save').'"></td>';
+print "</tr></form>\n";
 
-print '<table class="noborder" width="100%">';
 //print '<tr class="liste_titre">';
 //print '<td width="40%">'.$langs->trans("searchMode").'</td>';
 //print '<td width="40%"></td>';
@@ -146,7 +145,7 @@ for ($i=1; $i<=3; $i++){
 	print '<option value="'.$i.'" '.$sel.'>'.$langs->trans("search".$i).'</option>';
 }
 print '</select></td>';
-print '<td><input class="button" value="Modifier" name="Button" type="submit"></td>';
+print '<td><input type="submit" class="button button-save" name="save" value="'.$langs->trans('Save').'"></td>';
 print "</tr></form>\n";
 print '</table>';
 
