@@ -243,5 +243,8 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		print '</div>';
 	}
 
-	$conso->showformwrite($user,$module,$object,$formproduct,$html,$conf);
-	$conso->showformview($user,$module,$object,$formproduct,$html,$conf);
+// Display Form to Create Consumption
+$conso->showformwrite( $user, $module, $object, $formproduct, $html );
+
+// Display linked StockMovements
+$conso->showformview( $user, $module, $object, $formproduct, $html );

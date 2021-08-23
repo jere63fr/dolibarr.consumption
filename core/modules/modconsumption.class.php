@@ -128,7 +128,7 @@ class modconsumption extends DolibarrModules
 		// 'categories_x'	  to add a tab in category view (replace 'x' by type of category (0=product, 1=supplier, 2=customer, 3=member)
 
 		$this->tabs = array(
-			'project:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=projet',
+			'project:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readproject:/consumption/card.php?id=__ID__&type=project',
 			'order:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readorder:/consumption/card.php?id=__ID__&type=commande',
 			'intervention:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readintervention:/consumption/card.php?id=__ID__&type=ficheinter',
 			'propal:+conso:' . $langs->trans( 'StockConsumption' ) . ':@consumption:$user->rights->consumption->readpropal:/consumption/card.php?id=__ID__&type=propal',

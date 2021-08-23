@@ -16,13 +16,13 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
- 
+
  /**
  *   		\file       consumption/class/consumption.class.php
- *		\ingroup    Consumption 
- *		\brief      This file manages consumption 
+ *		\ingroup    Consumption
+ *		\brief      This file manages consumption
  *		\author		Jeremie TER-HEIDE
- *		\remarks	
+ *		\remarks
  */
  require_once DOL_DOCUMENT_ROOT .'/core/class/commonobject.class.php';
  require_once(DOL_DOCUMENT_ROOT."/core/lib/date.lib.php");
@@ -34,8 +34,8 @@ class Consumption extends CommonObject
 {
 
 	public $consotype='consotype';
-	
-	
+
+
 	/**
 	 *	Constructor
 	 *
@@ -55,7 +55,7 @@ class Consumption extends CommonObject
 			global $conf;
 			require_once DOL_DOCUMENT_ROOT .'/product/stock/class/mouvementstock.class.php';
 			require_once DOL_DOCUMENT_ROOT .'/product/class/product.class.php';
-			
+
 			$product = new Product($this->db);
 			$product->fetch($productid);
 			if($product->pmp>0){
@@ -89,9 +89,10 @@ class Consumption extends CommonObject
 			}
 		}
 	}
-	function showformwrite($user,$consotype,$entity,$formproduct,$html,$conf)
+
+	function showformwrite($user, $consotype, $entity, $formproduct, $html)
 	{
-		global $langs, $db;
+		global $langs, $db, $conf;
 
 		 $productstatic=new Product($db);
 		 $warehousestatic=new Entrepot($db);
@@ -131,7 +132,7 @@ class Consumption extends CommonObject
 			print load_fiche_titre($langs->trans("Consumption"), '', 'generic');
 
 				print "<form action=\"".$page.$_GET["id"]."\" method=\"post\">\n";
-			dol_fiche_head();
+				print dol_get_fiche_head();
 				print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 				print '<input type="hidden" name="action" value="conso">';
 				print '<input type="hidden" name="label" value="'.$libelle.' ('.$entity->ref.')">';
@@ -181,10 +182,10 @@ class Consumption extends CommonObject
 		}
 	}
 
-	function showformview($user,$consotype,$entity,$formproduct,$html,$conf)
+	function showformview($user, $consotype, $entity, $formproduct, $html)
 	{
 		global $langs,$db,$conf,$hookmanager;
-		
+
 		require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 		require_once DOL_DOCUMENT_ROOT.'/product/stock/class/entrepot.class.php';
 		require_once DOL_DOCUMENT_ROOT.'/product/stock/class/mouvementstock.class.php';
@@ -577,7 +578,7 @@ class Consumption extends CommonObject
 			print $searchpicto;
 			print '</td>';
 			print "</tr>\n";
-			
+
 			print '<tr class="liste_titre">';
 			if (! empty($arrayfields['m.rowid']['checked']))            print_liste_field_titre($arrayfields['m.rowid']['label'],$_SERVER["PHP_SELF"],'m.rowid','',$param,'',$sortfield,$sortorder);
 			if (! empty($arrayfields['m.datem']['checked']))            print_liste_field_titre($arrayfields['m.datem']['label'],$_SERVER["PHP_SELF"],'m.datem','',$param,'',$sortfield,$sortorder);
