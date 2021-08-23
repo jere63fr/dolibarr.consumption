@@ -156,16 +156,22 @@ class Consumption extends CommonObject
 				print '</td>';
 			}
 				print '</tr>';
+			if (empty($conf->global->PRODUCT_DISABLE_EATBY) || empty($conf->global->PRODUCT_DISABLE_SELLBY)) {
 				print '<tr>';
-				print '<td>'.$langs->trans("EatByDate").'</td><td>';
-				$eatbyselected=dol_mktime(0, 0, 0, GETPOST('eatbymonth'), GETPOST('eatbyday'), GETPOST('eatbyyear'));
-				print $form->selectDate($eatbyselected,'eatby','','',1,"");
-				print '</td>';
-				print '<td>'.$langs->trans("SellByDate").'</td><td>';
-				$sellbyselected=dol_mktime(0, 0, 0, GETPOST('sellbymonth'), GETPOST('sellbyday'), GETPOST('sellbyyear'));
-				print $form->selectDate($sellbyselected,'sellby','','',1,"");
-				print '</td>';
+				if (empty($conf->global->PRODUCT_DISABLE_EATBY)) {
+					print '<td>' . $langs->trans( "EatByDate" ) . '</td><td>';
+					$eatbyselected = dol_mktime( 0, 0, 0, GETPOST( 'eatbymonth' ), GETPOST( 'eatbyday' ), GETPOST( 'eatbyyear' ) );
+					print $form->selectDate( $eatbyselected, 'eatby', '', '', 1, "" );
+					print '</td>';
+				}
+				if (empty($conf->global->PRODUCT_DISABLE_SELLBY)) {
+					print '<td>' . $langs->trans( "SellByDate" ) . '</td><td>';
+					$sellbyselected = dol_mktime( 0, 0, 0, GETPOST( 'sellbymonth' ), GETPOST( 'sellbyday' ), GETPOST( 'sellbyyear' ) );
+					print $form->selectDate( $sellbyselected, 'sellby', '', '', 1, "" );
+					print '</td>';
+				}
 				print '</tr>';
+			}
 			print '</tbody>';
 
 				print '</table>';
@@ -250,17 +256,20 @@ class Consumption extends CommonObject
 		$extrafields = new ExtraFields($db);
 
 		// fetch optionals attributes and labels
-		$extralabels = $extrafields->fetch_name_optionals_label('movement');
-		$search_array_options=$extrafields->getOptionalsFromPost($extralabels,'','search_');
+		$extralabels            = $extrafields->fetch_name_optionals_label('movement');
+		$search_array_options   = $extrafields->getOptionalsFromPost($extralabels,'','search_');
+
+		$eatby_enabled  = ((!empty($conf->productbatch->enabled)) && empty($conf->global->PRODUCT_DISABLE_EATBY)) ? 1 : 0;
+		$sellby_enabled = ((!empty($conf->productbatch->enabled)) && empty($conf->global->PRODUCT_DISABLE_SELLBY)) ? 1 : 0;
 
 		$arrayfields=array(
 			'm.rowid'=>array('label'=>$langs->trans("Ref"), 'checked'=>1),
 			'm.datem'=>array('label'=>$langs->trans("Date"), 'checked'=>1),
 			'p.ref'=>array('label'=>$langs->trans("ProductRef"), 'checked'=>1),
 			'p.label'=>array('label'=>$langs->trans("ProductLabel"), 'checked'=>1),
-			'm.batch'=>array('label'=>$langs->trans("BatchNumberShort"), 'checked'=>1, 'enabled'=>(! empty($conf->productbatch->enabled))),
-			'pl.eatby'=>array('label'=>$langs->trans("EatByDate"), 'checked'=>0, 'enabled'=>(! empty($conf->productbatch->enabled))),
-			'pl.sellby'=>array('label'=>$langs->trans("SellByDate"), 'checked'=>0, 'position'=>10, 'enabled'=>(! empty($conf->productbatch->enabled))),
+			'm.batch'=>array('label'=>$langs->trans("BatchNumberShort"), 'checked'=>1, 'enabled'=>(!empty($conf->productbatch->enabled))),
+			'pl.eatby'=>array('label'=>$langs->trans("EatByDate"), 'checked'=>0, 'enabled'=> $eatby_enabled),
+			'pl.sellby'=>array('label'=>$langs->trans("SellByDate"), 'checked'=>0, 'position'=>10, 'enabled'=> $sellby_enabled),
 			'e.ref'=>array('label'=>$langs->trans("Warehouse"), 'checked'=>1, 'enabled'=>(! $id > 0)),	// If we are on specific warehouse, we hide it
 			'm.fk_user_author'=>array('label'=>$langs->trans("Author"), 'checked'=>0),
 			'm.inventorycode'=>array('label'=>$langs->trans("InventoryCodeShort"), 'checked'=>1),
