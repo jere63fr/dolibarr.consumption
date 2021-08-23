@@ -45,3 +45,6 @@ search2 = Recherche par Inventory Code
 search3 = Mixte
 search4 = Origin + ID
 searchMode = Mode de recherche
+
+ConsumptionElementButtonNew = Saisir une nouvelle consommation
+ConsumptionElementList = Liste des consommations
