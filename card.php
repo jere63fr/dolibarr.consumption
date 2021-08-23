@@ -30,6 +30,7 @@
  * @global $langs
  * @global $db
  * @global $user
+ * @global $hookmanager
  */
 
 // Load Dolibarr environment
@@ -83,41 +84,40 @@ $langs->loadLangs(
 	)
 );
 
-$id='';
-$ref='';
-if (isset($_GET["type"]))  { $type=$_GET["type"];}
-if (isset($_GET["id"]))  { $id=$_GET["id"]; }
-if (isset($_GET["ref"])) { $ref=$_GET["ref"]; }
-$module=$type;
-$headtit=$type;
-$headpic=$type;
-if($type=='commande'){
-	$headtit='CustomerOrder';
-	$headpic='order';
+$id         = GETPOST('id', 'int');
+$ref        = GETPOST('ref', 'alpha');
+$action     = GETPOST('action', 'aZ09');
+$backtopage = GETPOST('backtopage', 'alpha');
+$cancel     = GETPOST('cancel', 'alpha');
+$confirm    = GETPOST('confirm', 'aZ09');
+$type       = GETPOST('type', 'aZ09');
+
+$module  = $type;
+$headtit = $type;
+$headpic = $type;
+
+if ($type=='commande') {
+	$headtit = 'CustomerOrder';
+	$headpic = 'order';
+} elseif ($type=='propal') {
+	$headtit = 'Proposal';
+	$headpic = 'propal';
+} elseif ($type=='projet' || $type=='project') {
+	$type    = 'project';
+	$headtit = 'Project';
+	$headpic = 'project';
+} elseif ($type=='user') {
+	$type    = 'user';
+	$headtit = 'User';
+	$headpic = 'user';
+} elseif($type=='ficheinter'){
+	$type    = 'fichinter';
+	$headtit = 'InterventionCard';
+	$headpic = 'intervention';
 }
-if($type=='propal'){
-	$headtit='Proposal';
-	$headpic='propal';
-}
-if($type=='projet'){
-	$type='project';
-	$headtit='Project';
-	$headpic='project';
-}
-if($type=='user'){
-	$type='user';
-	$headtit='User';
-	$headpic='user';
-}
-elseif($type=='ficheinter'){
-	$type='fichinter';
-	$headtit='InterventionCard';
-	$headpic='intervention';
-}
-if ($id == '' && $ref == '')
-{
-        dol_print_error('','Bad parameter');
-        exit;
+if ($id == '' && $ref == '') {
+	dol_print_error('','Bad parameter');
+	exit;
 }
 
 $mine = $_REQUEST['mode']=='mine' ? 1 : 0;
@@ -127,41 +127,60 @@ $socid=0;
 if ($user->societe_id > 0) $socid=$user->societe_id;
 //$result = restrictedArea($user, $module, $id);
 
+// Initialize technical object to manage hooks of page. Note that conf->hooks_modules contains array of hook context
+$hookmanager->initHooks(array('consumptioncard', 'globalcard'));
 
+/*
+ * Actions
+ */
 
-/*******************************************************************
-* ACTIONS
-*
-* Put here all code to do according to value of "action" parameter
-********************************************************************/
-if ($_POST["action"] == "conso" && ! $_POST["cancel"])
- {
-         if (is_numeric($_POST["nbpiece"]))
-         {
-                 $conso = new Consumption($db);
-				 $product = new Product($db);
-                 $result=$product->fetch($_POST["product"]);
-                 $result=$conso->correct_stock($product->id, //produit
-				 $user,									//user
-                 $_POST["id_entrepot"],					//entrepot
-                 $_POST["nbpiece"],						//nb piece
-                 1,										//Direction of movement:0=input (stock increase by a stock transfer), 1=output (stock decrease after by a stock transfer),2=output (stock decrease), 3=input (stock increase)
-                 $_POST["label"],						//label
-                 0,										//price
-				 '',									//inventorycode
-				 $type,									//origintype & id
-				 $_GET["id"],							//
-				 $_POST["eatby"],						//eat-by date. Will be used if lot does not exists yet and will be created.
-				 $_POST["sellby"],					//sell-by date. Will be used if lot does not exists yet and will be created.
-				 $_POST["batch_number"]);				//batch number
+$parameters = array(
+	'type' => $type,
+);
+$reshook = $hookmanager->executeHooks('doActions', $parameters, $object, $action); // Note that $action and $object may have been modified by some hooks
+if ($reshook < 0) {
+	setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
+}
 
-                 if ($result > 0)
-                 {
-                         header("Location: card.php?id=".$id."&type=".$module);
-                         exit;
-                 }
-         }
- }
+if (empty($reshook)) {
+	if ($cancel) {
+		if ($backtopage) {
+			header("Location: ".$backtopage);
+			exit;
+		}
+		if ($type) {
+			header("Location: card.php?id=".$id."&type=".$module);
+			exit;
+		}
+	}
+
+	if ($action == "conso") {
+		if (is_numeric($_POST["nbpiece"])) {
+			$conso = new Consumption($db);
+			$product = new Product($db);
+			$result=$product->fetch($_POST["product"]);
+			$result=$conso->correct_stock($product->id, //produit
+				$user,									//user
+				$_POST["id_entrepot"],					//entrepot
+				$_POST["nbpiece"],						//nb piece
+				1,										//Direction of movement:0=input (stock increase by a stock transfer), 1=output (stock decrease after by a stock transfer),2=output (stock decrease), 3=input (stock increase)
+				$_POST["label"],						//label
+				0,										//price
+				'',									//inventorycode
+				$type,									//origintype & id
+				$id,							//
+				$_POST["eatby"],						//eat-by date. Will be used if lot does not exists yet and will be created.
+				$_POST["sellby"],					//sell-by date. Will be used if lot does not exists yet and will be created.
+				$_POST["batch_number"]);				//batch number
+
+			if ($result > 0) {
+				header("Location: card.php?id=".$id."&type=".$module);
+				exit;
+			}
+		}
+	}
+}
+
 
 /***************************************************
 * PAGE
