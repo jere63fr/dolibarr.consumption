@@ -88,7 +88,7 @@ $id         = GETPOST('id', 'int');
 $ref        = GETPOST('ref', 'alpha');
 $action     = GETPOST('action', 'aZ09');
 $backtopage = GETPOST('backtopage', 'alpha');
-$cancel     = GETPOST('cancel', 'alpha');
+$cancel     = GETPOST('cancel', 'aZ09');
 $confirm    = GETPOST('confirm', 'aZ09');
 $type       = GETPOST('type', 'aZ09');
 
@@ -104,6 +104,7 @@ if ($type=='commande') {
 	$headpic = 'propal';
 } elseif ($type=='projet' || $type=='project') {
 	$type    = 'project';
+	$module  = 'project';
 	$headtit = 'Project';
 	$headpic = 'project';
 } elseif ($type=='user') {

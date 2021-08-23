@@ -104,7 +104,7 @@ class Consumption extends CommonObject
 		$libelle    = '';
 
 		switch($consotype) {
-			case 'projet':
+			case 'project':
 				$right      = $object->statut>0&&$user->rights->consumption->writeproject;
 				$libelle    = $langs->trans("ProjectConsumption");
 				break;
