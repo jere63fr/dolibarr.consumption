@@ -90,52 +90,51 @@ class Consumption extends CommonObject
 		}
 	}
 
-	function showformwrite($user, $consotype, $entity, $formproduct, $html)
+	public function showformwrite($user, $consotype, $object, $formproduct, $html)
 	{
 		global $langs, $db, $conf;
 
-		 $productstatic=new Product($db);
-		 $warehousestatic=new Entrepot($db);
-		 $userstatic=new User($db);
-		 $form = new Form ($db);
+		$productstatic      = new Product($db);
+		$warehousestatic    = new Entrepot($db);
+		$userstatic         = new User($db);
+		$form               = new Form ($db);
 
-		$page = "card.php?type=".$consotype."&id=";
-		$right = false;
-		$libelle = '';
+		$page       = "card.php?type=".$consotype."&id=";
+		$right      = false;
+		$libelle    = '';
 
-		switch($consotype)
-		{
+		switch($consotype) {
 			case 'projet':
-				$right=$entity->statut>0&&$user->rights->consumption->writeproject;
-				$libelle = $langs->trans("ProjectConsumption");
+				$right      = $object->statut>0&&$user->rights->consumption->writeproject;
+				$libelle    = $langs->trans("ProjectConsumption");
 				break;
 			case 'user':
-				$right=$entity->statut>0&&$user->rights->consumption->writeuser;
-				$libelle = $langs->trans("UserConsumption").' \''.$entity->login.'\' ';
+				$right      = $object->statut>0&&$user->rights->consumption->writeuser;
+				$libelle    = $langs->trans("UserConsumption").' \''.$object->login.'\' ';
 				break;
 			case 'commande':
-				$right=$entity->statut>0&&$user->rights->consumption->writeorder;
-				$libelle = $langs->trans("OrderConsumption");
+				$right      = $object->statut>0&&$user->rights->consumption->writeorder;
+				$libelle    = $langs->trans("OrderConsumption");
 				break;
 			case 'ficheinter':
-				$right=$entity->statut>0&&$user->rights->consumption->writeintervention;
-				$libelle = $langs->trans("InterConsumption");
+				$right      = $object->statut>0&&$user->rights->consumption->writeintervention;
+				$libelle    = $langs->trans("InterConsumption");
 				break;
 			case 'propal':
-				$right=$entity->statut>0&&$user->rights->consumption->writepropal;
-				$libelle = $langs->trans("PropalConsumption");
+				$right      = $object->statut>0&&$user->rights->consumption->writepropal;
+				$libelle    = $langs->trans("PropalConsumption");
 				break;
 		}
-		if($right)
-		{
+
+		if ($right) {
 			//form for consumption
 			print load_fiche_titre($langs->trans("Consumption"), '', 'generic');
 
-				print "<form action=\"".$page.$_GET["id"]."\" method=\"post\">\n";
+				print '<form action="'.$page.$_GET["id"].'" method="post">';
 				print dol_get_fiche_head();
 				print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 				print '<input type="hidden" name="action" value="conso">';
-				print '<input type="hidden" name="label" value="'.$libelle.' ('.$entity->ref.')">';
+				print '<input type="hidden" name="label" value="'.$libelle.' ('.$object->ref.')">';
 				print '<table class="border centpercent">';
 				print '<tbody>';
 
@@ -152,7 +151,7 @@ class Consumption extends CommonObject
 				print '<td width="10%" class="fieldrequired">'.$langs->trans("NumberOfUnit").'</td><td width="20%"><input class="flat" name="nbpiece" size="10" value=""></td>';
 				print '</tr>';
 			if ( !empty( $conf->productbatch->enabled ) ) {
-				print '<td'.($entity->element == 'stock'?'': ' class="fieldrequired"').'>'.$langs->trans("batch_number").'</td><td colspan="3">';
+				print '<td'.($object->element == 'stock' ? '' : ' class="fieldrequired"').'>'.$langs->trans("batch_number").'</td><td colspan="3">';
 				print '<input type="text" name="batch_number" size="40" value="'.GETPOST("batch_number").'">';
 				print '</td>';
 			}
@@ -182,7 +181,7 @@ class Consumption extends CommonObject
 		}
 	}
 
-	function showformview($user, $consotype, $entity, $formproduct, $html)
+	public function showformview($user, $consotype, $object, $formproduct, $html)
 	{
 		global $langs,$db,$conf,$hookmanager;
 
@@ -328,13 +327,13 @@ class Consumption extends CommonObject
 		switch ($conf->global->CONSUMPTION_SEARCHMODE)
 		{
 			case 1:
-				$sql.= " AND m.label LIKE '%".addslashes($entity->ref)."%'";
+				$sql.= " AND m.label LIKE '%".addslashes($object->ref)."%'";
 				break;
 			case 2:
-				$sql.= " AND m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$entity->ref)."%'";
+				$sql.= " AND m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%'";
 				break;
 			case 3:
-				$sql.= " AND  (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$entity->ref)."%' OR m.label LIKE '%".addslashes($entity->ref)."%')";
+				$sql.= " AND  (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%' OR m.label LIKE '%".addslashes($object->ref)."%')";
 				break;
 		}
 		if (empty($conf->global->STOCK_SUPPORTS_SERVICES)) $sql.= " AND p.fk_product_type = 0";
@@ -769,29 +768,37 @@ class Consumption extends CommonObject
 
 
 	}
-	function countconso($entity){
+
+	public function countconso($object)
+	{
 		global $db,$conf;
+
 		$sql = "SELECT * FROM";
 		$sql.= " ".MAIN_DB_PREFIX."stock_mouvement as m WHERE";
 		switch ($conf->global->CONSUMPTION_SEARCHMODE)
 		{
 			case 1:
-				$sql.= " m.label LIKE '%".addslashes($entity->ref)."%'";
+				$sql.= " m.label LIKE '%".addslashes($object->ref)."%'";
 				break;
 			case 2:
-				$sql.= " m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$entity->ref)."%'";
+				$sql.= " m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%'";
 				break;
 			case 3:
-				$sql.= " (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$entity->ref)."%' OR m.label LIKE '%".addslashes($entity->ref)."%')";
+				$sql.= " (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%' OR m.label LIKE '%".addslashes($object->ref)."%')";
 				break;
 		}
+
 		$nbtotalofrecords = 0;
 		$result = $db->query($sql);
 		$nbtotalofrecords = $db->num_rows($result);
+
 		return $nbtotalofrecords;
 	}
-	function  fetchconso($entity){
-		global $conf,$user,$db;
+
+	public function fetchconso($object)
+	{
+		global $conf, $user, $db;
+
 		$sql = "SELECT p.rowid, p.ref as product_ref, p.label as produit, p.fk_product_type as type, p.entity,";
 		$sql.= " e.ref as stock, e.rowid as entrepot_id, e.lieu,";
 		$sql.= " m.rowid as mid, m.value as qty, m.datem, m.fk_user_author, m.label, m.inventorycode, m.fk_origin, m.origintype,";
@@ -806,16 +813,16 @@ class Consumption extends CommonObject
 		$sql.= " WHERE m.fk_product = p.rowid";
 		$sql.= " AND m.fk_entrepot = e.rowid";
 		$sql.= " AND e.entity IN (".getEntity('stock').")";
-		switch ($conf->global->CONSUMPTION_SEARCHMODE)
-		{
+
+		switch ($conf->global->CONSUMPTION_SEARCHMODE) {
 			case 1:
-				$sql.= " AND m.label LIKE '%".addslashes($entity->ref)."%'";
+				$sql.= " AND m.label LIKE '%".addslashes($object->ref)."%'";
 				break;
 			case 2:
-				$sql.= " AND m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$entity->ref)."%'";
+				$sql.= " AND m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%'";
 				break;
 			case 3:
-				$sql.= " AND  (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$entity->ref)."%' OR m.label LIKE '%".addslashes($entity->ref)."%')";
+				$sql.= " AND  (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%' OR m.label LIKE '%".addslashes($object->ref)."%')";
 				break;
 		}
 		if (empty($conf->global->STOCK_SUPPORTS_SERVICES)) $sql.= " AND p.fk_product_type = 0";
