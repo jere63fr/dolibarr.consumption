@@ -201,7 +201,6 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 	$object = new $classname($db);
 	$object->fetch($_GET["id"],$_GET["ref"]);
 	$conso = new Consumption($db);
-	$html=new Form($db);
 	$soc = new Societe($db, $object->socid);
 	$soc->fetch($object->socid);
 $function_head = $type.'_prepare_head';
@@ -291,7 +290,7 @@ if ($type == 'project') {
 print dol_get_fiche_end();
 
 // Display Form to Create Consumption
-$conso->showformwrite( $user, $module, $object, $formproduct, $html );
+$conso->showformwrite( $user, $module, $object, $formproduct, $form );
 
 // Display linked StockMovements
-$conso->showformview( $user, $module, $object, $formproduct, $html );
+$conso->showformview( $user, $module, $object, $formproduct, $form );

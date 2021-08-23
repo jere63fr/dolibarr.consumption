@@ -90,14 +90,13 @@ class Consumption extends CommonObject
 		}
 	}
 
-	public function showformwrite($user, $consotype, $object, $formproduct, $html)
+	public function showformwrite($user, $consotype, $object, $formproduct, $form)
 	{
 		global $langs, $db, $conf;
 
 		$productstatic      = new Product($db);
 		$warehousestatic    = new Entrepot($db);
 		$userstatic         = new User($db);
-		$form               = new Form ($db);
 
 		$page       = "card.php?type=".$consotype."&id=";
 		$right      = false;
@@ -146,7 +145,7 @@ class Consumption extends CommonObject
 				print '</td>';
 				print '<td width="10%">'.$langs->trans("Product").'</td>';
 				print '<td width="20%" class="fieldrequired">';
-				$html->select_produits('','product','',$conf->product->limit_size,0,-1,2);
+			$form->select_produits('', 'product', '', $conf->product->limit_size, 0, -1, 2);
 				print '</td>';
 				print '<td width="10%" class="fieldrequired">'.$langs->trans("NumberOfUnit").'</td><td width="20%"><input class="flat" name="nbpiece" size="10" value=""></td>';
 				print '</tr>';
@@ -181,7 +180,7 @@ class Consumption extends CommonObject
 		}
 	}
 
-	public function showformview($user, $consotype, $object, $formproduct, $html)
+	public function showformview($user, $consotype, $object, $formproduct, $form)
 	{
 		global $langs,$db,$conf,$hookmanager;
 
@@ -261,7 +260,7 @@ class Consumption extends CommonObject
 			'm.batch'=>array('label'=>$langs->trans("BatchNumberShort"), 'checked'=>1, 'enabled'=>(! empty($conf->productbatch->enabled))),
 			'pl.eatby'=>array('label'=>$langs->trans("EatByDate"), 'checked'=>0, 'enabled'=>(! empty($conf->productbatch->enabled))),
 			'pl.sellby'=>array('label'=>$langs->trans("SellByDate"), 'checked'=>0, 'position'=>10, 'enabled'=>(! empty($conf->productbatch->enabled))),
-			'e.ref'=>array('label'=>$langs->trans("Warehouse"), 'checked'=>1, 'enabled'=>(! $id > 0)),	// If we are on specific warehouse, we hide it
+			'e.ref'=>array('label'=>$langs->trans("Warehouse"), 'checked'=>1, 'enabled'=>1),
 			'm.fk_user_author'=>array('label'=>$langs->trans("Author"), 'checked'=>0),
 			'm.inventorycode'=>array('label'=>$langs->trans("InventoryCodeShort"), 'checked'=>1),
 			'm.label'=>array('label'=>$langs->trans("MovementLabel"), 'checked'=>1),
@@ -296,15 +295,11 @@ class Consumption extends CommonObject
 		 * View
 		 */
 
-		$productlot=new ProductLot($db);
-		$productstatic=new Product($db);
-		$warehousestatic=new Entrepot($db);
-		$movement=new MouvementStock($db);
-		$userstatic=new User($db);
-		$form=new Form($db);
-		$formother=new FormOther($db);
-		$formproduct=new FormProduct($db);
-		if (!empty($conf->projet->enabled)) $formproject=new FormProjets($db);
+		$productlot      = new ProductLot($db);
+		$productstatic   = new Product($db);
+		$warehousestatic = new Entrepot($db);
+		$movement        = new MouvementStock($db);
+		$userstatic      = new User($db);
 
 		$sql = "SELECT p.rowid, p.ref as product_ref, p.label as produit, p.fk_product_type as type, p.entity,";
 		$sql.= " e.ref as stock, e.rowid as entrepot_id, e.lieu,";
@@ -474,11 +469,8 @@ class Consumption extends CommonObject
 			{
 				print '<td class="liste_titre" valign="right">';
 				print '<input class="flat" type="text" size="2" maxlength="2" placeholder="'.dol_escape_htmltag($langs->trans("Month")).'" name="month" value="'.$month.'">';
-				if (empty($conf->productbatch->enabled)) print '&nbsp;';
-				//else print '<br>';
 				$syear = $year?$year:-1;
 				print '<input class="flat" type="text" size="3" maxlength="4" placeholder="'.dol_escape_htmltag($langs->trans("Year")).'" name="year" value="'.($syear > 0 ? $syear : '').'">';
-				//print $formother->selectyear($syear,'year',1, 20, 5);
 				print '</td>';
 			}
 			if (! empty($arrayfields['p.ref']['checked']))
