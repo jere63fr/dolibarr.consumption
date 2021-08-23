@@ -1,6 +1,6 @@
 <?php
-/* Copyright (C) 2018-2020 Jeremie Ter-Heide  <jeremie@ter-heide.fr>
- *
+/*
+ * Copyright (C) 2018-2021 Jeremie Ter-Heide  <jeremie@ter-heide.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,12 @@
  *		\version    $Id: orderconsumption.php,v 1.0 2011/04/28 eldy Exp $
  *		\author		Jérémie TER-HEIDE
  *		\remarks
+ */
+
+/**
+ * @global $langs
+ * @global $db
+ * @global $user
  */
 
 // Load Dolibarr environment
@@ -195,7 +201,7 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		$morehtmlref = '<div class="refidno">';
 		// Title
 		$morehtmlref .= $object->title;
-		dol_syslog( print_r($object, true ), LOG_ALERT);
+
 		// Thirdparty
 		if ($soc->id > 0)
 		{
@@ -213,7 +219,7 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		$head = user_prepare_head($object);
 		$linkback = '<a href="'.DOL_URL_ROOT.'/user/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
-		dol_fiche_head ($head, 'conso', $langs->trans($headtit), 0, $headpic );
+		print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
 		dol_banner_tab( $object, 'id', $linkback, $user->rights->user->user->lire || $user->admin );
 
 		print '</div>';

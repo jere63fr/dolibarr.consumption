@@ -1,6 +1,6 @@
 <?php
-/* Copyright (C) 2018-2020 Jeremie Ter-Heide  <jeremie@ter-heide.fr>
- *
+/*
+ * Copyright (C) 2018-2021 Jeremie Ter-Heide  <jeremie@ter-heide.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,24 +18,24 @@
 
 
 class ActionsConsumption
-{ 
-	
-	function completeTabsHead($parameters, &$object, &$action, $hookmanager)
+{
+
+	public function completeTabsHead($parameters, &$object, &$action, $hookmanager)
 	{
 		if (in_array('fileslib', explode(':', $parameters['context']))){
 			global $langs;
 			global $db;
 			global $user;
 			dol_include_once("/custom/consumption/class/consumption.class.php");
-			$conso = new Consumption($db);
-			$test = $parameters['head'];
-			$object=$parameters['object'];
-			foreach ($test as $key => $val){
-				if ($val[2]=='conso'){				
+			$conso  = new Consumption($db);
+			$test   = $parameters['head'];
+			$object = $parameters['object'];
+			foreach ($test as $key => $val) {
+				if ($val[2]=='conso') {
 					$nbmvt=$conso->countconso($object);
-					if($nbmvt > 0 && !strstr($test[$key][1], "badge")){
+					if ($nbmvt > 0 && !strstr($test[$key][1], "badge")) {
 						$test[$key][1].=' <span class="badge">'. $nbmvt .'</span>';
-						$this->results=$test;
+						$this->results = $test;
 						return 1;
 					}
 				}

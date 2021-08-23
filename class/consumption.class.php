@@ -1,6 +1,6 @@
- <?php
- /* Copyright (C) 2018-2020 Jeremie Ter-Heide  <jeremie@ter-heide.fr>
- *
+<?php
+/*
+ * Copyright (C) 2018-2020 Jeremie Ter-Heide  <jeremie@ter-heide.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,17 +24,17 @@
  *		\author		Jeremie TER-HEIDE
  *		\remarks
  */
- require_once DOL_DOCUMENT_ROOT .'/core/class/commonobject.class.php';
- require_once(DOL_DOCUMENT_ROOT."/core/lib/date.lib.php");
+
+ require_once DOL_DOCUMENT_ROOT.'/core/class/commonobject.class.php';
+ require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
  //require_once(DOL_DOCUMENT_ROOT."/core/class/html.form.class.php");
+
  /**
  *	Classe des gestion des consommations
  */
 class Consumption extends CommonObject
 {
-
-	public $consotype='consotype';
-
+	public $consotype = 'consotype';
 
 	/**
 	 *	Constructor
