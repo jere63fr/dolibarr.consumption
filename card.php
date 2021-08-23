@@ -199,8 +199,8 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 	$html=new Form($db);
 	$soc = new Societe($db, $object->socid);
 	$soc->fetch($object->socid);
-	$fonction = $type.'_prepare_head';
-	$head = $fonction($object);
+$function_head = $type.'_prepare_head';
+$head = $function_head($object);
 	$nbmvt=$conso->countconso($object);
 	if($nbmvt > 0){
 		foreach($head as $key=>$tab){
@@ -210,9 +210,7 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		}
 	}
 
-	if ($type == 'project') {
-
-		$head = project_prepare_head($object);
+if ($type == 'project') {
 
 		$projectsListId = $object->getProjectsAuthorizedForUser($user,$mine,1);
 		$object->next_prev_filter = " rowid in (".$projectsListId.")";
@@ -232,19 +230,36 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
 		dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin, 'rowid', 'ref', $morehtmlref);
 
-		print '</div>';
+} elseif ('user' == $type) {
 
-	} elseif ('user' == $type) {
-
-		$head = user_prepare_head($object);
 		$linkback = '<a href="'.DOL_URL_ROOT.'/user/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
 		print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
 		dol_banner_tab( $object, 'id', $linkback, $user->rights->user->user->lire || $user->admin );
 
-		print '</div>';
 
-	} else {
+} elseif ('commande' == $type) {
+
+	$linkback = '<a href="'.DOL_URL_ROOT.'/commande/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+
+	print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
+	dol_banner_tab( $object, 'id', $linkback, $user->rights->commande->read || $user->admin );
+
+} elseif ('fichinter' == $type) {
+
+	$linkback = '<a href="'.DOL_URL_ROOT.'/fichinter/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+
+	print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
+	dol_banner_tab( $object, 'id', $linkback, $user->rights->fichinter->read || $user->admin );
+
+} elseif ('propal' == $type) {
+
+	$linkback = '<a href="'.DOL_URL_ROOT.'/comm/propal/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+
+	print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
+	dol_banner_tab( $object, 'id', $linkback, $user->rights->fichinter->read || $user->admin );
+
+} else {
 		print $form->showrefnav($object,'ref','',1,'ref','ref','','&type='.$type);
 		print "</td></tr>";
 		// Ref commande client
@@ -266,8 +281,9 @@ llxHeader('',$langs->trans("StockConsumption"),'');
 		print '<td colspan="3">'.$object->thirdparty->getNomUrl(1).'</td></tr>';
 		print "</table>";
 
-		print '</div>';
-	}
+}
+
+print dol_get_fiche_end();
 
 // Display Form to Create Consumption
 $conso->showformwrite( $user, $module, $object, $formproduct, $html );
