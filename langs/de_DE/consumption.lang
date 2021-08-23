@@ -44,3 +44,7 @@ search1 = Suche nach Label
 search2 = Suche nach Inventarcode
 search3 = Label + Inventarcode
 searchMode = Suchmodus
+
+# Project Element
+ConsumptionElementButtonNew = Neuen Verbrauch erfassen
+ConsumptionElementList = Liste der Verbräuche

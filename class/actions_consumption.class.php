@@ -48,18 +48,20 @@ class ActionsConsumption
 		global $user;
 		global $langs;
 
+		$langs->load('consumption@consumption');
+
 		$this->results = array(
 			'consumption' => array(
-				'name'          => $langs->trans("Verbrauch"),
-				'title'         => $langs->trans("Liste der Verbräuche des Projektes"),
+				'name'          => $langs->trans("Consumption"),
+				'title'         => $langs->trans("ConsumptionElementList"),
 				'class'         => 'MouvementStock',
 				'table'         => 'stock_mouvement',
 				'datefieldname' => 'datev',
 				'margin'        => 'minus',
 				'disableamount' => 0,
-				'urlnew'        => DOL_URL_ROOT . '/custom/consumption/card.php?id=' . $object->id . '&type=project',
+				'urlnew'        => DOL_URL_ROOT . '/custom/consumption/card.php?id='.$object->id.'&type=project',
 				'lang'          => 'consumption',
-				'buttonnew'     => $langs->trans("Neuen Verbrauch erfassen"),
+				'buttonnew'     => $langs->trans("ConsumptionElementButtonNew"),
 				'testnew'       => $user->rights->consumption->writeproject,
 				'test'          => $user->rights->consumption->writeproject,
 			),
@@ -77,18 +79,6 @@ class ActionsConsumption
 		}
 
 		return 0;
-	}
-
-	public function XXprintOverviewDetail( $parameters, &$object, &$action, $hookmanager ) {
-
-		global $user;
-
-		if ( $parameters['key'] == 'consumption' ) {
-			// skip
-		}
-
-		return 0;
-
 	}
 
 }
