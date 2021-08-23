@@ -58,12 +58,7 @@ class Consumption extends CommonObject
 
 			$product = new Product($this->db);
 			$product->fetch($productid);
-			if($product->pmp>0){
-				$price=$product->pmp;
-			}
-			else{
-				$price=$product->cost_price;
-			}
+			$price = $this->get_product_cost($product);
 			$op[0] = "+".trim($nbpiece);
 			$op[1] = "-".trim($nbpiece);
 			$movementstock=new MouvementStock($this->db);
@@ -89,6 +84,35 @@ class Consumption extends CommonObject
 			}
 		}
 	}
+
+	/**
+	 * Return the real cost of a product
+	 *
+	 * @param   object  $product    Product object
+	 *
+	 * @return  float   Real price of the item rounded to 2 decimal digits
+	 */
+	public function get_product_cost( object $product )
+	{
+		$price = 0.00;
+
+		if ( $product->pmp > 0 ) {
+			$price = $product->pmp;
+		} else {
+			if ( empty( $product->cost_price ) ) {
+				require_once DOL_DOCUMENT_ROOT . '/fourn/class/fournisseur.product.class.php';
+				$product_fourn = new ProductFournisseur( $this->db );
+				if ( $product_fourn->find_min_price_product_fournisseur( $product->id ) > 0 ) {
+					$price = $product_fourn->display_price_product_fournisseur();
+				}
+			} else {
+				$price = $product->cost_price;
+			}
+		}
+
+		return round($price, 2);
+	}
+
 
 	public function showformwrite($user, $consotype, $object, $formproduct, $form)
 	{
