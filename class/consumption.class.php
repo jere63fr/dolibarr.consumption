@@ -151,10 +151,14 @@ class Consumption extends CommonObject
 				print '<td width="10%" class="fieldrequired">'.$langs->trans("NumberOfUnit").'</td><td width="20%"><input class="flat" name="nbpiece" size="10" value=""></td>';
 				print '</tr>';
 			if ( !empty( $conf->productbatch->enabled ) ) {
-				print '<td'.($object->element == 'stock' ? '' : ' class="fieldrequired"').'>'.$langs->trans("batch_number").'</td><td colspan="3">';
+				print '<td'.($object->element == 'stock' ? '' : ' class="fieldrequired"').'>'.$langs->trans("batch_number").'</td><td>';
 				print '<input type="text" name="batch_number" size="40" value="'.GETPOST("batch_number").'">';
 				print '</td>';
 			}
+			// Label
+			print '<td>'.$langs->trans("MovementLabel").'</td><td>';
+			print '<input type="text" name="label" size="65" value="'.$libelle.' ('.$object->ref.')">';
+			print '</td colspan="3">';
 				print '</tr>';
 				print '<tr>';
 				print '<td>'.$langs->trans("EatByDate").'</td><td>';
