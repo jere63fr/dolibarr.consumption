@@ -124,7 +124,7 @@ print '<input type="hidden" name="action" value="updatesearchmode">';
 print '<input type="hidden" name="token" value="'.newToken().'">';
 print '<tr class="oddeven"><td>'.$langs->trans("searchMode").'</td>';
 print '<td><select name="searchmode">';
-for ($i=1; $i<=3; $i++){
+for ($i=1; $i<=4; $i++){
 	$sel='';
 	if($conf->global->CONSUMPTION_SEARCHMODE==$i){
 		$sel='selected';
