@@ -358,6 +358,9 @@ class Consumption extends CommonObject
 			case 3:
 				$sql.= " AND  (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%' OR m.label LIKE '%".addslashes($object->ref)."%')";
 				break;
+			case 4:
+				$sql.= " AND  (m.origintype = '".$type."' AND m.fk_origin = '".$id."')";
+				break;
 		}
 		if (empty($conf->global->STOCK_SUPPORTS_SERVICES)) $sql.= " AND p.fk_product_type = 0";
 		if ($month > 0)
@@ -791,12 +794,10 @@ class Consumption extends CommonObject
 
 	public function countconso($object)
 	{
-		global $db,$conf;
+		global $db, $conf;
 
-		$sql = "SELECT * FROM";
-		$sql.= " ".MAIN_DB_PREFIX."stock_mouvement as m WHERE";
-		switch ($conf->global->CONSUMPTION_SEARCHMODE)
-		{
+		$sql = "SELECT * FROM ".MAIN_DB_PREFIX."stock_mouvement as m WHERE";
+		switch ($conf->global->CONSUMPTION_SEARCHMODE) {
 			case 1:
 				$sql.= " m.label LIKE '%".addslashes($object->ref)."%'";
 				break;
@@ -805,6 +806,9 @@ class Consumption extends CommonObject
 				break;
 			case 3:
 				$sql.= " (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%' OR m.label LIKE '%".addslashes($object->ref)."%')";
+				break;
+			case 4:
+				$sql .= " (m.origintype = '" . $object->element . "' AND m.fk_origin = '" . $object->id . "')";
 				break;
 		}
 
@@ -843,6 +847,9 @@ class Consumption extends CommonObject
 				break;
 			case 3:
 				$sql.= " AND  (m.inventorycode LIKE '".addslashes($conf->global->CONSUMPTION_INVCODEPREFIX.$object->ref)."%' OR m.label LIKE '%".addslashes($object->ref)."%')";
+				break;
+			case 4:
+				$sql .= " AND  (m.origintype = '" . $object->element . "' AND m.fk_origin = '" . $object->id . "')";
 				break;
 		}
 		if (empty($conf->global->STOCK_SUPPORTS_SERVICES)) $sql.= " AND p.fk_product_type = 0";

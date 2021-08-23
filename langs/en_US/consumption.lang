@@ -43,4 +43,5 @@ PrefixInvcod=Inventory Code prefix
 search1=Search by label
 search2=Search by Inventory Code
 search3=Both
+search4 = Origin + ID
 searchMode=Search Mode
