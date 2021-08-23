@@ -47,7 +47,7 @@ class Consumption extends CommonObject
 		$this->consotype = '';
 
 	}
-	function correct_stock($productid, $user, $id_entrepot, $nbpiece, $movement, $label='', $price=0, $inventorycode='', $origin_element='', $origin_id=null,$eatby='',$sellby='',$batch='')
+	function correct_stock($productid, $user, $id_entrepot, $nbpiece, $movement, $label='', $price=0, $inventorycode='', $origin_type='', $origin_id=null,$eatby='',$sellby='',$batch='')
 	{
 		if ($id_entrepot)
 		{
@@ -67,7 +67,7 @@ class Consumption extends CommonObject
 			$op[0] = "+".trim($nbpiece);
 			$op[1] = "-".trim($nbpiece);
 			$movementstock=new MouvementStock($this->db);
-			$classname = ucfirst($origin_element);
+			$classname = ucfirst($origin_type);
 			$origin = new $classname($this->db);
 			$res=$origin->fetch($origin_id);
 			$movementstock->origin = $origin;
@@ -132,7 +132,7 @@ class Consumption extends CommonObject
 
 				print '<form action="'.$page.$_GET["id"].'" method="post">';
 				print dol_get_fiche_head();
-				print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+			print '<input type="hidden" name="token" value="'.newToken().'">';
 				print '<input type="hidden" name="action" value="conso">';
 				print '<input type="hidden" name="label" value="'.$libelle.' ('.$object->ref.')">';
 				print '<table class="border centpercent">';
@@ -426,7 +426,7 @@ class Consumption extends CommonObject
 
 			print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'?id='.$id.'&type='.$type.'">';
 			if ($optioncss != '') print '<input type="hidden" name="optioncss" value="'.$optioncss.'">';
-			print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
+			print '<input type="hidden" name="token" value="'.newToken().'">';
 			print '<input type="hidden" name="formfilteraction" id="formfilteraction" value="list">';
 			print '<input type="hidden" name="action" value="list">';
 			print '<input type="hidden" name="sortfield" value="'.$sortfield.'">';

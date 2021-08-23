@@ -95,6 +95,7 @@ $type       = GETPOST('type', 'aZ09');
 $module  = $type;
 $headtit = $type;
 $headpic = $type;
+$origin_type = $type;
 
 if ($type=='commande') {
 	$headtit = 'CustomerOrder';
@@ -102,6 +103,7 @@ if ($type=='commande') {
 } elseif ($type=='propal') {
 	$headtit = 'Proposal';
 	$headpic = 'propal';
+//	$origin_type = 'propal@comm/propal';
 } elseif ($type=='projet' || $type=='project') {
 	$type    = 'project';
 	$module  = 'project';
@@ -115,6 +117,7 @@ if ($type=='commande') {
 	$type    = 'fichinter';
 	$headtit = 'InterventionCard';
 	$headpic = 'intervention';
+//	$origin_type = 'fichinter@fichinter';
 }
 if ($id == '' && $ref == '') {
 	dol_print_error('','Bad parameter');
@@ -157,10 +160,12 @@ if (empty($reshook)) {
 
 	if ($action == "conso") {
 		if (is_numeric($_POST["nbpiece"])) {
-			$conso = new Consumption($db);
-			$product = new Product($db);
-			$result=$product->fetch($_POST["product"]);
-			$result=$conso->correct_stock($product->id, //produit
+			$conso      = new Consumption($db);
+			$product    = new Product($db);
+
+			$res_product = $product->fetch($_POST["product"]);
+			$res_stock = $conso->correct_stock(
+				$product->id, //produit
 				$user,									//user
 				$_POST["id_entrepot"],					//entrepot
 				$_POST["nbpiece"],						//nb piece
@@ -168,13 +173,13 @@ if (empty($reshook)) {
 				$_POST["label"],						//label
 				0,										//price
 				'',									//inventorycode
-				$type,									//origintype & id
+				$origin_type,									//origintype & id
 				$id,							//
 				$_POST["eatby"],						//eat-by date. Will be used if lot does not exists yet and will be created.
 				$_POST["sellby"],					//sell-by date. Will be used if lot does not exists yet and will be created.
 				$_POST["batch_number"]);				//batch number
 
-			if ($result > 0) {
+			if ($res_stock > 0) {
 				header("Location: card.php?id=".$id."&type=".$module);
 				exit;
 			}
