@@ -164,12 +164,14 @@ if (empty($reshook)) {
 			$product    = new Product($db);
 
 			$res_product = $product->fetch($_POST["product"]);
+            $movement_type = ($_POST["nbpiece"] < 0 ) ? 0 : 1;
+
 			$res_stock = $conso->correct_stock(
 				$product->id, //produit
 				$user,									//user
 				$_POST["id_entrepot"],					//entrepot
 				$_POST["nbpiece"],						//nb piece
-				1,										//Direction of movement:0=input (stock increase by a stock transfer), 1=output (stock decrease after by a stock transfer),2=output (stock decrease), 3=input (stock increase)
+                $movement_type,										//Direction of movement:0=input (stock increase by a stock transfer), 1=output (stock decrease after by a stock transfer),2=output (stock decrease), 3=input (stock increase)
 				$_POST["label"],						//label
 				0,										//price
 				'',									//inventorycode

@@ -59,8 +59,7 @@ class Consumption extends CommonObject
 			$product = new Product($this->db);
 			$product->fetch($productid);
 			$price = $this->get_product_cost($product);
-			$op[0] = "+".trim($nbpiece);
-			$op[1] = "-".trim($nbpiece);
+            $qty = $nbpiece * -1;
 			$movementstock=new MouvementStock($this->db);
 			$classname = ucfirst($origin_type);
 			$origin = new $classname($this->db);
@@ -68,7 +67,7 @@ class Consumption extends CommonObject
 			$movementstock->origin = $origin;
 			$movementstock->origin->id = $origin_id;
 			$inventorycode=$conf->global->CONSUMPTION_INVCODEPREFIX.$movementstock->origin->ref.dol_print_date(dol_now(),'%y%m%d%H%M%S');
-			$result=$movementstock->_create($user,$productid,$id_entrepot,$op[$movement],$movement,$price,$label,$inventorycode,'',$eatby,$sellby,$batch);
+			$result=$movementstock->_create($user,$productid,$id_entrepot,$qty,$movement,$price,$label,$inventorycode,'',$eatby,$sellby,$batch);
 
 			if ($result >= 0)
 			{
