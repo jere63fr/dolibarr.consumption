@@ -154,7 +154,7 @@ class Consumption extends CommonObject
 
 				print '<form action="'.$page.$_GET["id"].'" method="post">';
 				print dol_get_fiche_head();
-			print '<input type="hidden" name="token" value="'.newToken().'">';
+			    print '<input type="hidden" name="token" value="'.newToken().'">';
 				print '<input type="hidden" name="action" value="conso">';
 				print '<input type="hidden" name="label" value="'.$libelle.' ('.$object->ref.')">';
 				print '<table class="border centpercent">';
@@ -168,7 +168,7 @@ class Consumption extends CommonObject
 				print '</td>';
 				print '<td width="10%">'.$langs->trans("Product").'</td>';
 				print '<td width="20%" class="fieldrequired">';
-			$form->select_produits('', 'product', '', $conf->product->limit_size, 0, -1, 2);
+			    $form->select_produits('', 'product', 0, $conf->product->limit_size, 0, -1, 2);
 				print '</td>';
 				print '<td width="10%" class="fieldrequired">'.$langs->trans("NumberOfUnit").'</td><td width="20%"><input class="flat" name="nbpiece" size="10" value=""></td>';
 				print '</tr>';
