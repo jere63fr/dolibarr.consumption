@@ -60,14 +60,14 @@ class Consumption extends CommonObject
 			$product->fetch($productid);
 			$price = $this->get_product_cost($product);
             $qty = $nbpiece * -1;
-			$movementstock=new MouvementStock($this->db);
-			$classname = ucfirst($origin_type);
-			$origin = new $classname($this->db);
-			$res=$origin->fetch($origin_id);
-			$movementstock->origin = $origin;
-			$movementstock->origin->id = $origin_id;
-			$inventorycode=$conf->global->CONSUMPTION_INVCODEPREFIX.$movementstock->origin->ref.dol_print_date(dol_now(),'%y%m%d%H%M%S');
-			$result=$movementstock->_create($user,$productid,$id_entrepot,$qty,$movement,$price,$label,$inventorycode,'',$eatby,$sellby,$batch);
+			$movementstock = new MouvementStock($this->db);
+            $movementstock->setOrigin($origin_type, $origin_id);
+            if ($origin_type == 'project') {
+                $movementstock->fk_project = $origin_id;
+            }
+
+			$inventorycode  = $conf->global->CONSUMPTION_INVCODEPREFIX.$movementstock->origin->ref.dol_print_date(dol_now(),'%y%m%d%H%M%S');
+			$result         = $movementstock->_create($user,$productid,$id_entrepot,$qty,$movement,$price,$label,$inventorycode,'',$eatby,$sellby,$batch);
 
 			if ($result >= 0)
 			{
@@ -156,7 +156,6 @@ class Consumption extends CommonObject
 				print dol_get_fiche_head();
 			    print '<input type="hidden" name="token" value="'.newToken().'">';
 				print '<input type="hidden" name="action" value="conso">';
-				print '<input type="hidden" name="label" value="'.$libelle.' ('.$object->ref.')">';
 				print '<table class="border centpercent">';
 				print '<tbody>';
 
