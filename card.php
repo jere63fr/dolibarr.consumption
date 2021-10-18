@@ -132,7 +132,7 @@ if ($user->societe_id > 0) $socid=$user->societe_id;
 //$result = restrictedArea($user, $module, $id);
 
 // Initialize technical object to manage hooks of page. Note that conf->hooks_modules contains array of hook context
-$hookmanager->initHooks(array('consumptioncard', 'globalcard'));
+$hookmanager->initHooks(array('consumptioncard', 'globalcard', 'consumptionlist'));
 
 /*
  * Actions
