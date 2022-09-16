@@ -440,7 +440,7 @@ class Consumption extends CommonObject
 			}
 
 			$param='';
-			if (! empty($contextpage) && $contextpage != $_SERVER["PHP_SELF"]) $param.='&contextpage='.$contextpage;
+			if (! empty($contextpage) && $contextpage != $_SERVER["PHP_SELF"]) $param.='&contextpage='.$contextpage.'&type='.$type;
 			if ($limit > 0 && $limit != $conf->liste_limit) $param.='&limit='.$limit;
 			if ($id > 0)                 $param.='&id='.$id;
 			if ($search_movement)        $param.='&search_movement='.urlencode($search_movement);
