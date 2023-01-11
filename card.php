@@ -234,14 +234,14 @@ if ($type == 'project') {
 		$morehtmlref .= '</div>';
 
 		print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
-		dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin, 'rowid', 'ref', $morehtmlref);
+		dol_banner_tab($object, 'id', $linkback, $user->rights->user->user->lire || $user->admin, 'rowid', 'ref', $morehtmlref, '&type='.$type);
 
 } elseif ('user' == $type) {
 
 		$linkback = '<a href="'.DOL_URL_ROOT.'/user/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
 		print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
-		dol_banner_tab( $object, 'id', $linkback, $user->rights->user->user->lire || $user->admin );
+		dol_banner_tab( $object, 'id', $linkback, $user->rights->user->user->lire || $user->admin, 'rowid', 'ref', '', '&type='.$type );
 
 
 } elseif ('commande' == $type) {
@@ -249,21 +249,21 @@ if ($type == 'project') {
 	$linkback = '<a href="'.DOL_URL_ROOT.'/commande/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
 	print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
-	dol_banner_tab( $object, 'id', $linkback, $user->rights->commande->read || $user->admin );
+	dol_banner_tab( $object, 'id', $linkback, $user->rights->commande->read || $user->admin, 'rowid', 'ref', '', '&type='.$type );
 
 } elseif ('fichinter' == $type) {
 
 	$linkback = '<a href="'.DOL_URL_ROOT.'/fichinter/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
 	print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
-	dol_banner_tab( $object, 'id', $linkback, $user->rights->fichinter->read || $user->admin );
+	dol_banner_tab( $object, 'id', $linkback, $user->rights->fichinter->read || $user->admin, 'rowid', 'ref', '', '&type='.$type );
 
 } elseif ('propal' == $type) {
 
 	$linkback = '<a href="'.DOL_URL_ROOT.'/comm/propal/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
 	print dol_get_fiche_head($head, 'conso', $langs->trans($headtit), 0, $headpic);
-	dol_banner_tab( $object, 'id', $linkback, $user->rights->fichinter->read || $user->admin );
+	dol_banner_tab( $object, 'id', $linkback, $user->rights->fichinter->read || $user->admin, 'rowid', 'ref', '', '&type='.$type );
 
 } else {
 		print $form->showrefnav($object,'ref','',1,'ref','ref','','&type='.$type);
