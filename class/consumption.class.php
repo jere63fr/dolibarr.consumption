@@ -792,7 +792,10 @@ class Consumption extends CommonObject
 			dol_print_error($db);
 		}
 
+		llxFooter();
+
 		$db->close();
+
 
 	}
 

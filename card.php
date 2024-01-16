@@ -296,5 +296,3 @@ $conso->showformwrite( $user, $module, $object, $formproduct, $form );
 
 // Display linked StockMovements
 $conso->showformview( $user, $module, $object, $formproduct, $form );
-
-llxFooter();
