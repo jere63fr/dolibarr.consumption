@@ -31,7 +31,7 @@ class modconsumption extends DolibarrModules
 	 *
 	 * @param $DB   Database handler
 	 */
-	function modconsumption($DB) {
+	function __construct($DB) {
 
 		global $langs, $conf;
 
@@ -43,7 +43,7 @@ class modconsumption extends DolibarrModules
 		$this->numero = 9789;
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'consumption';
-		
+
 		// Family can be 'crm','financial','hr','projects','products','ecm','technic','other'
 		// It is used to group modules in module setup page
 		$this->family = "products";
@@ -54,7 +54,7 @@ class modconsumption extends DolibarrModules
 		$this->editor_name = 'Jérémie TER-HEIDE';
 		$this->editor_url = 'http://ter-heide.fr';
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
-		$this->version = '4.0';
+		$this->version = '4.0.1';
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		// Where to store the module in setup page (0=common,1=interface,2=others,3=very specific)
